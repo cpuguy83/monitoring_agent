@@ -9,4 +9,9 @@ group :development do
   gem "rdoc", "~> 3.12"
   gem "bundler", "~> 1.0"
   gem "jeweler", "~> 1.8.7"
+  gem 'guard'
+  gem 'guard-rspec'
 end
+
+gem 'rspec', group: [:test, :development]
+gem 'rspec-given', group: [:test, :development]
