@@ -15,3 +15,5 @@ end
 
 gem 'rspec', group: [:test, :development]
 gem 'rspec-given', group: [:test, :development]
+
+gem 'celluloid'
