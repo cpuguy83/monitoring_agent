@@ -4,8 +4,8 @@ module Agent
     attr_reader :services, :hosts, :attributes
 
     def initialize(attrs={})
-      @services = RelationProxy.new(Service)
-      @hosts = RelationProxy.new(self.class)
+      @services = RelationProxy.new(Service, self)
+      @hosts = RelationProxy.new(self.class, self)
       attrs.delete(:services)
       @attributes = attrs
     end

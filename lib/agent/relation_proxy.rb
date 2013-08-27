@@ -3,8 +3,9 @@ module Agent
     attr_reader :collection
     include Enumerable
 
-    def initialize(klass)
+    def initialize(klass, parent_object)
       @klass = klass
+      @parent_object = parent_object
       @collection = []
       @mutex = Mutex.new
     end
@@ -26,7 +27,14 @@ module Agent
       synchronize do
         @collection << service
       end
+      set_parent_on_child_object(service)
       service
     end
+  private
+     def set_parent_on_child_object(child_object)
+        child_object.instance_variable_set(
+          "@#{@parent_object.class.to_s.downcase.split('::').last}",
+          @parent_object)
+     end
   end
 end
