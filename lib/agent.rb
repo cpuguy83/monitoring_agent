@@ -11,10 +11,12 @@ module Agent
     end
 
     def start
+      cleanup_runner
       @runner ||= Runner.run
     end
 
     def start!
+      cleanup_runner
       @runner ||= Runner.run!
     end
 
@@ -22,7 +24,15 @@ module Agent
     def stop
       @runner.terminate
     ensure
-      @runner = nil unless @runner.alive?
+      cleanup_runner
+    end
+
+    private
+
+    def cleanup_runner
+      if @runner && !@runner.alive?
+        @runner = nil
+      end
     end
 
   end
