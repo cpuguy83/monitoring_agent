@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 
 require 'agent/runner'
+require 'agent/host'
 
 module Agent
   class << self
