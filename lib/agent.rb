@@ -3,6 +3,7 @@ Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'ostruct'
 
 require 'agent/runner'
+require 'agent/relation_proxy'
 require 'agent/host'
 
 module Agent
