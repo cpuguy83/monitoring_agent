@@ -10,11 +10,11 @@ module Agent
     def perform(opts={})
       set_work_options(opts)
 
-      output = if work_arguments
-        perform_with_arguments
-      else
-        perform_without_arguments
-      end
+      output =  if work_arguments
+                  perform_with_arguments
+                else
+                  perform_without_arguments
+                end
 
       run_handler(output)
     end
