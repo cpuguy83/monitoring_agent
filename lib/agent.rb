@@ -29,7 +29,7 @@ module Agent
       cleanup_runner
     end
 
-    private
+  private
 
     def cleanup_runner
       if @runner && !@runner.alive?
