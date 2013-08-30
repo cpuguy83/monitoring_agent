@@ -16,7 +16,8 @@ module Agent
                   perform_without_arguments
                 end
 
-      run_handler(output)
+      run_local_handler(output)
+      run_global_handler(output)
     end
 
   private
@@ -33,10 +34,14 @@ module Agent
       @handler_method = opts[:handleer_method] || :handle
     end
 
-    def run_handler(output)
+    def run_local_handler(output)
       if handler_class.respond_to?(handler_method)
         handler_class.public_send(handler_method, output)
       end
+    end
+
+    def run_global_handler(output)
+      Agent::Handler.call(output)
     end
 
 
