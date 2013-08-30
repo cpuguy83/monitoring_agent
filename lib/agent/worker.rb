@@ -36,12 +36,12 @@ module Agent
 
     def run_local_handler(output)
       if handler_class.respond_to?(handler_method)
-        handler_class.public_send(handler_method, output)
+        handler_class.async.public_send(handler_method, output)
       end
     end
 
     def run_global_handler(output)
-      Agent::Handler.call(output)
+      Agent::Handler.async.call(output)
     end
 
 
