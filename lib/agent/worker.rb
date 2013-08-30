@@ -16,7 +16,7 @@ module Agent
         perform_without_arguments
       end
 
-      run_handler(output) if handler
+      run_handler(output)
     end
 
   private
