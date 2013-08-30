@@ -27,14 +27,8 @@ module Agent
       synchronize do
         @collection << service
       end
-      set_parent_on_child_object(service)
       service
     end
-  private
-     def set_parent_on_child_object(child_object)
-        child_object.instance_variable_set(
-          "@#{@parent_object.class.to_s.downcase.split('::').last}",
-          @parent_object)
-     end
+
   end
 end
