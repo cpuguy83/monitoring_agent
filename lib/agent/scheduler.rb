@@ -3,6 +3,11 @@ module Agent
     include Celluloid
     include Clockwork
 
+    def initialize
+      super
+      async.start
+    end
+
     def start
       load_config
       configure_clockwork
