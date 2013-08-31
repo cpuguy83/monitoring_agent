@@ -23,7 +23,7 @@ module Agent
 
 
     def stop
-      @runner.terminate
+      runner.terminate
     ensure
       cleanup_dead_runner
     end
