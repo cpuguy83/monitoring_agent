@@ -14,12 +14,10 @@ module Agent
     end
 
     def start
-      cleanup_runner
       @runner ||= Runner.run
     end
 
     def start!
-      cleanup_runner
       @runner ||= Runner.run!
     end
 
@@ -27,14 +25,16 @@ module Agent
     def stop
       @runner.terminate
     ensure
-      cleanup_runner
+      cleanup_dead_runner
     end
 
   private
 
-    def cleanup_runner
-      if @runner && !@runner.alive?
-        @runner = nil
+    def cleanup_dead_runner
+      if @runner
+        unless @runner.alive?
+          @runner = nil
+        end
       end
     end
 
