@@ -30,7 +30,7 @@ The work scheduler is completely naive to keep early development simple.<br>
 ```ruby
 every 5.minutes, 'Some Job' { SomeJobClass }
 ```
-Where SomeJobClass is the class that has the logic for perform the check
+Where SomeJobClass is the class that has the logic to perform the check
 
 ```ruby
 class SomeJobClass
@@ -61,7 +61,7 @@ Agent.start # Blocks the main thread
 ```
 
 Currently hardcoded to start 10 worker agents
-No work queue is implemented yet, so once you have 1 busy workers, it will block
+No work queue is implemented yet, so once you have 10 busy workers, it will block
 
 
 ## Contributing to agent
