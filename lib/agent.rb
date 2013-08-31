@@ -28,6 +28,14 @@ module Agent
       cleanup_dead_runner
     end
 
+    def work(work_class)
+      worker.perform(work_class: work_class)
+    end
+
+    def worker
+      Runner.worker
+    end
+
   private
 
     def dead_runner?
