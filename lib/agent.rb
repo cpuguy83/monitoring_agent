@@ -30,11 +30,17 @@ module Agent
 
   private
 
-    def cleanup_dead_runner
-      if @runner
-        unless @runner.alive?
-          @runner = nil
+    def dead_runner?
+      if runner
+        unless runner.alive?
+          true
         end
+      end
+    end
+
+    def cleanup_dead_runner
+      if dead_runner?
+        @runner = nil
       end
     end
 
