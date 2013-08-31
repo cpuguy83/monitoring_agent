@@ -5,6 +5,7 @@ require 'ostruct'
 require 'agent/runner'
 require 'agent/relation_proxy'
 require 'agent/host'
+require 'agent/check_agent'
 
 module Agent
   class << self
