@@ -4,8 +4,7 @@ module Agent
 
     include Celluloid
 
-    attr_reader :work_class, :work_method, :work_arguments,
-      :handler_class, :handler_method
+    attr_reader :work_class, :work_method, :work_arguments
 
     def perform(opts={})
       set_work_options(opts)
@@ -15,42 +14,29 @@ module Agent
                 else
                   perform_without_arguments
                 end
-
-      run_local_handler(output)
-      run_global_handler(output)
+      clear_worker_options
     end
 
   private
 
     def set_work_options(opts={})
-      [:work_class, :work_method].each do |opt|
-        raise OptionError, "Missing option #{opt}" unless opts[opt]
-      end
+      raise OptionError, "Missing work_class option" unless opts[:work_class]
 
       @work_class = opts[:work_class]
-      @work_method = opts[:work_method] || :perform
       @work_arguments = opts[:work_arguments]
-      @handler_class = opts[:handler_class] || work_class
-      @handler_method = opts[:handleer_method] || :handle
     end
 
-    def run_local_handler(output)
-      handler = Agent::Handler.new(output, handler_class, handler_method)
-      handler.async.call_local_handler
+    def clear_work_options
+      @work_class = nil
+      @work_arguments = nil
     end
-
-    def run_global_handler(output)
-      handler = Agent::Handler.new(output)
-      handler.call_global_handler
-    end
-
 
     def perform_with_arguments
-      work_class.public_send(work_method, *work_arguments)
+      work_class.perform(work_arguments)
     end
 
     def perform_without_arguments
-      work_class.public_send(work_method)
+      work_class.perform
     end
   end
 end
