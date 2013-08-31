@@ -1,28 +1,32 @@
-= agent
+# agent
 
 The intention of this is as yet another Nagios replacement.
 It is an single process, multithreaded monitoring agent
 It is base donthe Celluloid Actor framework.
 
-This is 1 part of 3 piece monitoring framework.
-agent(this) - the actual monitoring process
-agent reporting WUI - View check results/stats (akin to the main Nagios WUI)
-server
-  - Store agents configs
-  - View agent results
-  - Agents check in to get configuration
-  - Agents check in to report check results and other statistics
+This is 1 part of 3 piece monitoring framework.<br>
+####agent(this)
+ - the actual monitoring process
+ 
+###agent reporting WUI - 
+ - View check results/stats (akin to the main Nagios WUI)
+
+###server
+ - Store agents configs
+ - View agent results
+ - Agents check in to get configuration
+ - Agents check in to report check results and other statistics
 
 This is still in early development but is actually functional.
 
-Everything is currently kept only in-memory
-This means we aren't storing last check times or anything.
-The work scheduler is completely naive to keep early development simple.
+Everything is currently kept only in-memory.<br>
+This means we aren't storing last check times or anything.<br>
+The work scheduler is completely naive to keep early development simple.<br>
 
-To use:
-- gem install from github
-Put jobs in config/schedule.rb
-This is using the clockwork gem, so check out the API there.
+####To use:
+  - gem install from github
+  - Put jobs in config/schedule.rb <br>This is using the clockwork gem, so check out the API there.
+
 ```ruby
 every 5.minutes, 'Some Job' { SomeJobClass }
 ```
@@ -56,7 +60,7 @@ Agent.start! # Does not block main thread
 Agent.start # Blocks the main thread
 ```
 
-== Contributing to agent
+## Contributing to agent
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
@@ -66,8 +70,9 @@ Agent.start # Blocks the main thread
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2013 Brian Goff. See LICENSE.txt for
 further details.
+
 
