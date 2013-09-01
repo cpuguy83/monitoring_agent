@@ -60,7 +60,7 @@ Agent.start! # Does not block main thread
 Agent.start # Blocks the main thread
 ```
 
-Currently hardcoded to start 10 worker agents
+Currently hardcoded to start 10 worker agents<br>
 No work queue is implemented yet, so once you have 10 busy workers, it will block
 
 
