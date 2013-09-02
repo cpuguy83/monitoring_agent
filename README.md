@@ -7,8 +7,8 @@ It is base donthe Celluloid Actor framework.
 This is 1 part of 3 piece monitoring framework.<br>
 ####agent(this)
  - the actual monitoring process
- 
-###agent reporting WUI - 
+
+###agent reporting WUI -
  - View check results/stats (akin to the main Nagios WUI)
 
 ###server
