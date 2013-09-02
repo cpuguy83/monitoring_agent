@@ -3,9 +3,11 @@ Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'ostruct'
 
 require 'agent/runner'
+require 'agent/configuration'
 require 'agent/relation_proxy'
 require 'agent/host'
 require 'agent/check_agent'
+require 'agent/work'
 
 module Agent
   class << self
