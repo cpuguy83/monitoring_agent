@@ -11,5 +11,13 @@ module Agent
     def worker
       Celluloid::Actor[:worker]
     end
+
+    def work_queue
+      Celluloid::Actor[:work_queue]
+    end
+
+    def scheduler
+      Celluloid::Actor[:scheduler]
+    end
   end
 end
