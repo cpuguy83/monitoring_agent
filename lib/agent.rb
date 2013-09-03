@@ -23,7 +23,6 @@ module Agent
       @runner ||= Runner.run!
     end
 
-
     def stop
       runner.terminate
     ensure
@@ -35,7 +34,15 @@ module Agent
     end
 
     def worker
-      Runner.worker
+      runner.worker
+    end
+
+    def work_queue
+      runner.work_queue
+    end
+
+    def scheduler
+      runner.scheduler
     end
 
   private
