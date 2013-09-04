@@ -5,19 +5,15 @@ require 'agent/work_queue'
 module Agent
   class Runner < Celluloid::SupervisionGroup
     pool Agent::Worker, as: :worker, size: 10
-    supervise Agent::Scheduler, as: :scheduler
     supervise Agent::WorkQueue, as: :work_queue
+    supervise Agent::Scheduler, as: :scheduler
 
-    def worker
-      Celluloid::Actor[:worker]
-    end
-
-    def work_queue
-      Celluloid::Actor[:work_queue]
-    end
-
-    def scheduler
-      Celluloid::Actor[:scheduler]
+    [:work_queue, :scheduler, :worker].each do |actor|
+      define_method actor do
+        Celluloid::Actor[actor]
+      end
     end
   end
+
+
 end
