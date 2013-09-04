@@ -4,11 +4,10 @@ module Agent
 
     include Celluloid
 
-    attr_reader :work_class, :work_args
 
     def perform(work)
       set_work_options(work)
-      output =  if work.arguments
+      work.output =  if work.arguments
                   perform_with_arguments
                 else
                   perform_without_arguments
@@ -19,6 +18,7 @@ module Agent
     end
 
   private
+
     def set_work_options(work)
       @work_class = work.work_class
       @work_args  = work.arguments
