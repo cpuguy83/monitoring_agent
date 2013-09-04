@@ -21,6 +21,8 @@ module Agent
 
     def start!
       @runner ||= Runner.run!
+      wait_for_actor_boot
+      @runner
     end
 
     def stop
@@ -46,6 +48,13 @@ module Agent
     end
 
   private
+    def wait_for_actor_boot
+      loop do
+        break if runner && runner.work_queue &&
+          runner.scheduler &&
+          runner.worker
+      end
+    end
 
     def dead_runner?
       if runner
@@ -63,3 +72,6 @@ module Agent
 
   end
 end
+
+
+
