@@ -26,5 +26,6 @@ module Agent
     def put_back(work)
       @queue.unshift(work)
     end
+
   end
 end
