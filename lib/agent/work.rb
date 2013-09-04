@@ -2,7 +2,7 @@ module Agent
   class Work
     attr_reader :attributes
     def self.instance_attrs
-      [:work_class, :arguments, :perform_at, :frequency, :last_run, :output]
+      [:name, :work_class, :arguments, :perform_at, :frequency, :last_run, :output]
     end
     def initialize(attrs={})
       @attributes = {}
@@ -42,6 +42,7 @@ module Agent
         true
       end
     end
+
   private
     def time_since_last_run
       Time.now - last_run
