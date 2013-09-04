@@ -17,7 +17,8 @@ module Agent
     end
 
     instance_attrs.each do |attr|
-      define_method attr do
+      define_method attr do |value=nil|
+        @attributes[attr] = value if value
         @attributes[attr]
       end
 
