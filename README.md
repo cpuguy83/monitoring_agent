@@ -17,51 +17,14 @@ This is 1 part of 3 piece monitoring framework.<br>
  - Agents check in to get configuration
  - Agents check in to report check results and other statistics
 
-This is still in early development but is actually functional.
+This is still in early development.
+I am still working out how I want to handle the work queue and scheduling.
+Hit me up on on Twitter @cpuguy83 if you'd like to contribute
+
 
 Everything is currently kept only in-memory.<br>
 This means we aren't storing last check times or anything.<br>
 The work scheduler is completely naive to keep early development simple.<br>
-
-####To use:
-  - gem install from github
-  - Put jobs in config/schedule.rb <br>This is using the clockwork gem, so check out the API there.
-
-```ruby
-every 5.minutes, 'Some Job' { SomeJobClass }
-```
-Where SomeJobClass is the class that has the logic to perform the check
-
-```ruby
-class SomeJobClass
-  include Agent::CheckAgent
-
-  def perform
-    # ...
-    # Main check logic here
-  end
-
-  def handle
-    # ...
-    # Optional
-    # Put how to handle the check result here
-    # Has access to:
-    #   .args - the args passed into your perform method
-    #   .output - The output from your perform method
-  end
-end
-```
-
-
-```ruby
-require 'agent'
-Agent.start! # Does not block main thread
-# or
-Agent.start # Blocks the main thread
-```
-
-Currently hardcoded to start 10 worker agents<br>
-No work queue is implemented yet, so once you have 10 busy workers, it will block
 
 
 ## Contributing to agent
