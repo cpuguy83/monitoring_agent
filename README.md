@@ -17,14 +17,18 @@ This is 1 part of 3 piece monitoring framework.<br>
  - Agents check in to get configuration
  - Agents check in to report check results and other statistics
 
-This is still in early development.
-I am still working out how I want to handle the work queue and scheduling.
-Hit me up on on Twitter @cpuguy83 if you'd like to contribute
+This is still in early development, use at your own risk
 
+To use:
+```ruby
+require 'agent'
+Agent.start!
+```
+Check out config/schedule.rb for an example on how to schedule work.<br />
+Major changes are coming to this configuration, what's here now is for example only.
 
 Everything is currently kept only in-memory.<br>
 This means we aren't storing last check times or anything.<br>
-The work scheduler is completely naive to keep early development simple.<br>
 
 
 ## Contributing to agent
