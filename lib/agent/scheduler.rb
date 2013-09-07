@@ -1,11 +1,6 @@
 module Agent
   class Scheduler
-    include Celluloid
-    include Clockwork
 
-    def initialize
-      super
-      async.start
     class Configuration
       def initialize
         load_config
@@ -30,17 +25,25 @@ module Agent
       end
     end
 
-    def start
+    include Celluloid::IO
+
+    attr_reader :work_schedule
+
+    def initialize
       load_config
-      configure_clockwork
-      run
+      @work_schedule = Actor[:work_schedule]
+      async.run
     end
 
-    def configure_clockwork
-      configure do |c|
-        c[:logger] = ::Logger.new('/tmp/test.log')
-      end
+    def run
+      loop { schedule_work }
     end
+
+    def schedule_work
+      work = work_schedule.get
+      Actor[:worker].async.perform(work) if work
+    end
+
   private
     def load_config
       Configuration.new
