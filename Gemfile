@@ -17,5 +17,5 @@ gem 'rspec', group: [:test, :development]
 gem 'rspec-given', group: [:test, :development]
 
 gem 'celluloid'
-gem 'activesupport', require: ['active_support/core_ext']
-gem 'clockwork'
+gem 'celluloid-io'
+gem 'activesupport', require: false
