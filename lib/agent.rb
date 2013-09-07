@@ -1,6 +1,7 @@
 require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'ostruct'
+require 'active_support/core_ext'
 
 require 'agent/runner'
 require 'agent/configuration'
@@ -8,6 +9,7 @@ require 'agent/relation_proxy'
 require 'agent/host'
 require 'agent/check_agent'
 require 'agent/work'
+
 
 module Agent
   class << self
@@ -35,22 +37,22 @@ module Agent
       worker.perform(work_class: work_class)
     end
 
-    def worker
-      runner.worker
-    end
-
-    def work_queue
-      runner.work_queue
+    def work_schedule
+      runner.work_schedule
     end
 
     def scheduler
       runner.scheduler
     end
 
+    def worker
+      runner.worker
+    end
+
   private
     def wait_for_actor_boot
       loop do
-        break if runner && runner.work_queue &&
+        break if runner && runner.work_schedule &&
           runner.scheduler &&
           runner.worker
       end
