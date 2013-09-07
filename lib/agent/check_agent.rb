@@ -1,10 +1,12 @@
 module Agent
   module CheckAgent
-    extend ActiveSupport::Concern
 
-    included do
-      private_class_method :call_handler, :get_instance
-      attr_accessor :output, :args
+    def self.included(base)
+      base.extend(ClassMethods)
+      base.instance_eval do
+        private_class_method :call_handler, :get_instance
+        attr_accessor :output, :args
+      end
     end
 
     module ClassMethods
