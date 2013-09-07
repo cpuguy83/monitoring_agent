@@ -1,4 +1,11 @@
-every(5.seconds, 'Perform check 1')
-every(5.seconds, 'Perform check 2')
-every(5.seconds, 'Perform check 3')
+class MyWorker
+  include Agent::CheckAgent
+  def perform
+    Logger.new('/tmp/test2.log').info('Stuff')
+  end
+end
 
+work 'alias' do
+  frequency 5.seconds
+  work_class MyWorker
+end
