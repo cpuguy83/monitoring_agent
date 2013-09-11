@@ -1,6 +1,6 @@
 module Agent
   class Host
-    class Service < OpenStruct; end
+    class Service; end
     attr_reader :services, :hosts, :attributes
 
     def initialize(attrs={})
