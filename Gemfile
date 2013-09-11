@@ -16,6 +16,6 @@ end
 gem 'rspec', group: [:test, :development]
 gem 'rspec-given', group: [:test, :development]
 
-gem 'celluloid'
 gem 'celluloid-io'
+gem 'celluloid', github: 'celluloid/celluloid'
 gem 'activesupport', require: ['active_support/core_ext/integer/time']
