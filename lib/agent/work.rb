@@ -3,7 +3,7 @@ require 'securerandom'
 module Agent
   class Work
     include Comparable
-    attr_reader :attributes, :id
+    attr_reader :attributes
     def self.instance_attrs
       [:name, :work_class, :arguments,:perform_at, :frequency,
         :last_run, :output]
@@ -18,8 +18,6 @@ module Agent
       end
       self.last_run ||= Time.new(0)
       self.frequency ||= 30.minutes
-
-      @id = SecureRandom.uuid
 
     end
 
