@@ -11,7 +11,7 @@ module Agent
     end
 
     def add(work)
-      add_work(work) unless is_being_worked_on?(work)
+      async.add_work(work) unless is_being_worked_on?(work)
       work
     end
 
@@ -34,7 +34,7 @@ module Agent
 
     def put_back(work)
       @working.delete(work)
-      add(work)
+      async.add(work)
     end
 
   private
