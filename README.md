@@ -31,6 +31,38 @@ Everything is currently kept only in-memory.<br>
 This means we aren't storing last check times or anything.<br>
 
 
+###Middleware
+You can write your own middleware which gets run after each check is performed.<br>
+In the middleware you have access to the "work" object.<br>
+The work object is where check results and other bits of info are stored.
+
+To write your middleware:
+```ruby
+module Agent
+  module Middleware
+    class MyAwesomeMiddlewares
+      def call(work)
+        # Some awesome stuff before passing to the next item in the chain
+        yield
+        # Some more awesome stuff once the chain bubbles back up
+      end
+    end
+  end
+end
+```
+You register your middleware as such:
+```ruby
+Agent.configure do |config|
+  config.middleware do |chain|
+    chain.add Agent::Middleware::MyAwesomeMiddlewares
+  end
+end
+```
+Your middleware must define a "call" method.<br>
+Everything before the yield is called before passing on to the next middleware<br>
+Everything after the yield is called after the rest of the middleware stack has run<br>
+If you do not yield in your middleware call it will break the chain (and likely the app)
+
 ## Contributing to agent
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
