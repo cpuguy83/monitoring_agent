@@ -3,7 +3,7 @@ module Agent
 
     class Configuration
       def initialize
-        load_config
+        Thread.new { load_config }
       end
 
       def work(name=nil, &block)
@@ -25,12 +25,12 @@ module Agent
       end
     end
 
-    include Celluloid::IO
+    include Celluloid
 
     attr_reader :work_schedule
 
     def initialize
-      load_config
+      async.load_config
       @work_schedule = Actor[:work_schedule]
       async.run
     end
