@@ -2,7 +2,7 @@
 
 The intention of this is as yet another Nagios replacement.
 It is an single process, multithreaded monitoring agent
-It is base donthe Celluloid Actor framework.
+It is based on the Celluloid Actor framework.
 
 This is 1 part of 3 piece monitoring framework.<br>
 ####agent(this)
