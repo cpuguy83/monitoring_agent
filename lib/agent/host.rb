@@ -19,6 +19,5 @@ module Agent
       end
     end
 
-
   end
 end
