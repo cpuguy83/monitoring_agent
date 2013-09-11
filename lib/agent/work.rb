@@ -59,8 +59,6 @@ module Agent
       else
         perform_without_arguments
       end
-
-      self.perform_at = nil
     end
 
     def <=>(other)
