@@ -2,6 +2,8 @@ require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'ostruct'
 
+require 'agent/middleware/chain'
+require 'agent/middleware/logging'
 require 'agent/runner'
 require 'agent/configuration'
 require 'agent/relation_proxy'
@@ -46,6 +48,22 @@ module Agent
 
     def worker
       runner.worker
+    end
+
+    def configure
+      yield self
+    end
+
+    def middleware
+      @middleware_chain = default_middleware
+      yield @middleware_chain if block_given?
+      @middleware_chain
+    end
+
+    def default_middleware
+      Middleware::Chain.new do |m|
+        m.add Middleware::Logging
+      end
     end
 
   private

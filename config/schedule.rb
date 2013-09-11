@@ -2,8 +2,7 @@ require 'open-uri'
 class MyWorker
   include Agent::CheckAgent
   def perform(n)
-    ::Logger.new('/tmp/test2.log').info("Testing #{n}")
-    Kernel.sleep 10
+    Kernel.sleep 5
   end
 end
 counter = 0

@@ -18,6 +18,8 @@ module Agent
       work.perform_at = nil
       work.last_run = Time.now
       work_schedule.put_back(work)
+
+      Agent.middleware.invoke(work)
     end
 
   end
