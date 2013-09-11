@@ -1,18 +1,23 @@
 module Agent
   class Worker
-
     include Celluloid
 
+    attr_reader :work_schedule
+
     def perform(work)
+      @work_schedule ||= Actor[:work_schedule]
+
       work.perform
-    ensure
-      work.last_run = Time.now
-      put_back(work)
+
+      post_run(work)
     end
 
   private
-    def put_back(work)
-      Actor[:work_schedule].put_back(work)
+
+    def post_run(work)
+      work.perform_at = nil
+      work.last_run = Time.now
+      work_schedule.put_back(work)
     end
 
   end
