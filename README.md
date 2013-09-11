@@ -28,7 +28,7 @@ Check out config/schedule.rb for an example on how to schedule work.<br />
 Major changes are coming to this configuration, what's here now is for example only.
 
 Everything is currently kept only in-memory.<br>
-This means we aren't storing last check times or anything.<br>
+If the agent is restarted all data will be lost<br>
 
 
 ###Middleware
