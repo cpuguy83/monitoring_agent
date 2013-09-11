@@ -18,4 +18,4 @@ gem 'rspec-given', group: [:test, :development]
 
 gem 'celluloid'
 gem 'celluloid-io'
-gem 'activesupport', require: false
+gem 'activesupport', require: ['active_support/core_ext/integer/time']
