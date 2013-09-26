@@ -27,12 +27,13 @@ module Agent
 
     include Celluloid
 
-    attr_reader :work_schedule
-
     def initialize
       async.load_config
-      @work_schedule = Actor[:work_schedule]
       async.run
+    end
+
+    def work_schedule
+      Agent.runner[:work_schedule]
     end
 
     def run
@@ -41,7 +42,11 @@ module Agent
 
     def schedule_work
       work = work_schedule.get
-      Actor[:worker].async.perform(work) if work
+      worker.async.perform(work) if work
+    end
+
+    def worker
+      Agent.runner[:worker]
     end
 
   private
