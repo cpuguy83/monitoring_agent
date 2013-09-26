@@ -3,7 +3,7 @@ module Agent
 
     class Configuration
       def initialize
-        Thread.new { load_config }
+        load_config
       end
 
       def work(name=nil, &block)
