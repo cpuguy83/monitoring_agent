@@ -1,6 +1,5 @@
 require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
-require 'ostruct'
 
 require 'agent/middleware/chain'
 require 'agent/middleware/logging'
