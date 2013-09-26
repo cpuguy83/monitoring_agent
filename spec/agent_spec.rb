@@ -9,6 +9,6 @@ describe Agent do
   describe '.stop' do
     Given { Agent.start! }
     When(:result) { Agent.stop }
-    Then { expect(Agent.runner).to_not be_alive}
+    Then { expect(Agent.runner).to be nil}
   end
 end
