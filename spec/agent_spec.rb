@@ -8,7 +8,7 @@ describe Agent do
 
   describe '.stop' do
     Given { Agent.start! }
-    When(:result) { Agent.stop }
+    When { Agent.stop }
     Then { expect(Agent.runner).to be nil}
   end
 end
