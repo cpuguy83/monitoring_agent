@@ -12,6 +12,16 @@ module Agent
     [:work_schedule, :scheduler, :worker].each do |actor|
       define_method actor do
         Actor[actor]
+    def initialize(opts)
+      super
+      wait_for_actor_boot
+    end
+
+    def wait_for_actor_boot
+      loop do
+        break if self[:work_schedule] &&
+          self[:worker] &&
+          self[:scheduler]
       end
     end
   end

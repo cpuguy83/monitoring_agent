@@ -24,30 +24,12 @@ module Agent
 
     def start!
       @runner ||= Runner.run!
-      wait_for_actor_boot
-      @runner
     end
 
     def stop
       runner.terminate
     ensure
       cleanup_dead_runner
-    end
-
-    def work(work_class)
-      worker.perform(work_class: work_class)
-    end
-
-    def work_schedule
-      runner.work_schedule
-    end
-
-    def scheduler
-      runner.scheduler
-    end
-
-    def worker
-      runner.worker
     end
 
     def configure
@@ -67,13 +49,6 @@ module Agent
     end
 
   private
-    def wait_for_actor_boot
-      loop do
-        break if runner && runner.work_schedule &&
-          runner.scheduler &&
-          runner.worker
-      end
-    end
 
     def dead_runner?
       if runner
