@@ -23,6 +23,7 @@ module Agent
     end
 
     def build(attrs={})
+      attrs[:relation_proxy] = self
       service = @klass.new(attrs)
       synchronize do
         @collection << service
