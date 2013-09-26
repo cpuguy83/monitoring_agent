@@ -22,7 +22,7 @@ module Agent
     end
 
     def save
-      Celluloid::Actor[:work_schedule].add(self)
+      Agent.runner[:work_schedule].add(self)
     end
 
     instance_attrs.each do |attr|

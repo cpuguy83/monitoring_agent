@@ -2,14 +2,14 @@ module Agent
   class Worker
     include Celluloid
 
-    attr_reader :work_schedule
-
     def perform(work)
-      @work_schedule ||= Actor[:work_schedule]
-
       work.perform
 
       post_run(work)
+    end
+
+    def work_schedule
+      Agent.runner[:work_schedule]
     end
 
   private

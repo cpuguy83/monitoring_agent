@@ -1,7 +1,7 @@
 require 'spec_helper'
 module Agent
   describe WorkSchedule do
-    Given(:queue) { Agent.work_schedule }
+    Given(:queue) { Agent.runner[:work_schedule] }
     Given(:work) { Work.new }
     describe '.add' do
       context 'Work is added' do
