@@ -4,7 +4,6 @@ Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'agent/middleware/chain'
 require 'agent/middleware/logging'
 require 'agent/runner'
-require 'agent/configuration'
 require 'agent/relation_proxy'
 require 'agent/host'
 require 'agent/check_agent'
