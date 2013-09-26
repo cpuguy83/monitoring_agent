@@ -11,4 +11,10 @@ describe Agent do
     When { Agent.stop }
     Then { expect(Agent.runner).to be nil}
   end
+
+  describe '.runner' do
+    Given { Agent.start! }
+    Then { expect(Agent.runner).to be_a Agent::Runner }
+    Then { expect(Agent.runner).to be_alive }
+  end
 end
