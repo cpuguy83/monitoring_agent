@@ -9,9 +9,10 @@ module Agent
     pool Agent::Worker, as: :worker, size: 10
     supervise Agent::Scheduler, as: :scheduler
 
-    [:work_schedule, :scheduler, :worker].each do |actor|
-      define_method actor do
-        Actor[actor]
+    def [](actor_name)
+      @registry[actor_name]
+    end
+
     def initialize(opts)
       super
       wait_for_actor_boot
