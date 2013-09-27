@@ -1,6 +1,6 @@
 module Agent
   class RelationProxy
-    attr_reader :collection
+    attr_reader :collection, :parent_object
     include Enumerable
 
     def initialize(klass, parent_object)
