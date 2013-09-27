@@ -1,4 +1,6 @@
 require 'spec_helper'
+class Foo; end
+class Bar; end
 
 describe Agent::Work do
   Given(:work) { Agent::Work.new work_class: 'Foo' }
