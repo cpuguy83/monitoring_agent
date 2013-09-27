@@ -1,6 +1,13 @@
 require 'spec_helper'
 module Agent
   describe WorkSchedule do
+    before :each do
+      runner = double(:runner)
+      Agent.stub(:runner).and_return(runner)
+      allow(runner).to receive(:[]).with(:work_schedule).
+        and_return(Agent::WorkSchedule.new)
+    end
+
     Given(:queue) { Agent.runner[:work_schedule] }
     Given(:work) { Work.new }
     describe '.add' do
