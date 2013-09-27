@@ -25,7 +25,7 @@ module Agent
           Given(:work) { Work.new(last_run: 10.minutes.ago,
                                   frequency: 5.minutes)}
           Given(:work2) { Work.new(last_run: 9.minutes.ago,
-                                   frequency: 5.minutes )}
+                                   frequency: 5.minutes)}
           Given { queue.add(work) }
           Given { queue.add(work2) }
           When(:result) { queue.get }
