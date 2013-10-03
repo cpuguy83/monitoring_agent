@@ -17,17 +17,19 @@ module Agent
     end
 
     def start
-      @runner ||= Runner.run
+      if dead_runner?
+        @runner = Runner.run
+      end
     end
 
     def start!
-      @runner ||= Runner.run!
+      if dead_runner?
+        @runner = Runner.run!
+      end
     end
 
     def stop
       runner.terminate
-    ensure
-      cleanup_dead_runner
     end
 
     def configure
@@ -49,10 +51,10 @@ module Agent
   private
 
     def dead_runner?
-      if runner
-        unless runner.alive?
-          true
-        end
+      if runner && runner.alive?
+        false
+      else
+        true
       end
     end
 
