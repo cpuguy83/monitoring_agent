@@ -1,14 +1,13 @@
-require 'securerandom'
-
 module Agent
   class Work
     include Comparable
-    attr_reader :attributes
+    attr_reader :attributes, :work_schedule
     def self.instance_attrs
       [:name, :work_class, :arguments,:perform_at, :frequency,
         :last_run, :output]
     end
-    def initialize(attrs={})
+    def initialize(work_schedule,attrs={})
+      @work_schedule = work_schedule
       @attributes = {}
 
       attrs.each do |key, value|
@@ -22,7 +21,7 @@ module Agent
     end
 
     def save
-      Agent.runner[:work_schedule].add(self)
+      work_schedule.add(self)
     end
 
     instance_attrs.each do |attr|
