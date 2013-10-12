@@ -2,19 +2,33 @@ require 'spec_helper'
 
 describe Agent do
   describe '.start' do
-    Given { Agent.start! }
-    When(:result) { Agent.runner }
-    Then { expect(result).to be_an Agent::Runner }
-    Then { expect(result).to be_alive }
+    When { Agent.start! }
+    Then { expect(Agent).to be_running }
+    And { expect(Agent.runner).to be_an Agent::Runner }
+
+    context 'Agent is started again' do
+      Given { Agent.start! }
+      Given(:runner) { Agent.runner }
+      When { Agent.start! }
+      Then { expect(runner).to be Agent.runner }
+    end
+
   end
 
   describe '.stop' do
     Given { Agent.start! }
     When { Agent.stop }
-    Then { expect(Agent.runner).to be_nil }
+    Then { expect(Agent).to be_stopped }
   end
 
-  it 'Survives a reset' do
+  context 'agent is restarted' do
+    Given!(:agent1) { Agent.start! }
+    Given { Agent.stop }
+    When { Agent.start! }
+    Then { expect(Agent).to be_running }
+  end
+
+  it 'Survives an Actor System reboot' do
     Agent.start!
     runner = Agent.runner
 
@@ -24,4 +38,5 @@ describe Agent do
 
     expect(Agent.runner).to_not be runner
   end
+
 end

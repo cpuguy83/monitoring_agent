@@ -48,6 +48,14 @@ module Agent
       end
     end
 
+    def running?
+      runner.alive?
+    end
+
+    def stopped?
+      !running?
+    end
+
   private
 
     def dead_runner?
