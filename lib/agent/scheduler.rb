@@ -7,7 +7,7 @@ module Agent
       end
 
       def work(name=nil, &block)
-        work = Agent::Work.new
+        work = Agent::Work.new(runner[:work_schedule])
         work.name = name if name
         work.instance_eval(&block)
 
@@ -33,7 +33,7 @@ module Agent
     end
 
     def work_schedule
-      Agent.runner[:work_schedule]
+      runner[:work_schedule]
     end
 
     def run
@@ -46,12 +46,16 @@ module Agent
     end
 
     def worker
-      Agent.runner[:worker]
+      runner[:worker]
     end
 
   private
     def load_config
       Configuration.new
+    end
+
+    def runner
+      links.detect {|link| Celluloid::SupervisionGroup === link }
     end
 
   end
