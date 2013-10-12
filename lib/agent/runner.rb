@@ -5,6 +5,8 @@ require 'agent/work_schedule'
 module Agent
   class Runner < Celluloid::SupervisionGroup
 
+    attr_reader :registry
+
     supervise Agent::WorkSchedule, as: :work_schedule
     pool Agent::Worker, as: :worker, size: 10
     supervise Agent::Scheduler, as: :scheduler
