@@ -1,3 +1,5 @@
+"!https://travis-ci.org/cpuguy83/monitoring_agent.png!":https://travis-ci.org/cpuguy83/monitoring_agent
+
 # agent
 
 The intention of this is as yet another Nagios replacement.
