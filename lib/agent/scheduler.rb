@@ -2,12 +2,13 @@ module Agent
   class Scheduler
 
     class Configuration
-      def initialize
+      def initialize(work_schedule)
+        @work_schedule = work_schedule
         load_config
       end
 
       def work(name=nil, &block)
-        work = Agent::Work.new(runner[:work_schedule])
+        work = Agent::Work.new(@work_schedule)
         work.name = name if name
         work.instance_eval(&block)
 
@@ -55,7 +56,7 @@ module Agent
 
   private
     def load_config
-      Configuration.new
+      Configuration.new(runner[:work_schedule])
     end
 
   end
