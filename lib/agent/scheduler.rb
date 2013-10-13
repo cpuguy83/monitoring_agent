@@ -49,13 +49,13 @@ module Agent
       runner[:worker]
     end
 
+    def runner
+      links.detect {|link| Celluloid::SupervisionGroup === link }
+    end
+
   private
     def load_config
       Configuration.new
-    end
-
-    def runner
-      links.detect {|link| Celluloid::SupervisionGroup === link }
     end
 
   end
