@@ -9,7 +9,7 @@ module Agent
     end
 
     Given(:queue) { Agent.runner[:work_schedule] }
-    Given(:work) { Work.new }
+    Given(:work) { Work.new(Agent.runner) }
     describe '.add' do
       context 'Work is added' do
         When { queue.add(work) }
