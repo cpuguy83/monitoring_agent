@@ -1,6 +1,6 @@
 require 'open-uri'
 class MyWorker
-  include Agent::CheckAgent
+  include Agent::Probe
   def perform(n)
     Kernel.sleep 5
   end

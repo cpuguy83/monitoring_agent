@@ -6,7 +6,7 @@ require 'agent/middleware/logging'
 require 'agent/runner'
 require 'agent/relation_proxy'
 require 'agent/host'
-require 'agent/check_agent'
+require 'agent/probe'
 require 'agent/work'
 
 

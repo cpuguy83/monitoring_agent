@@ -1,5 +1,5 @@
 module Agent
-  module CheckAgent
+  module Probe
 
     def self.included(base)
       base.extend(ClassMethods)
@@ -11,9 +11,9 @@ module Agent
 
     module ClassMethods
       def perform(*args)
-        check_agent = get_instance(*args)
-        check_agent.output = check_agent.perform(*args)
-        call_handler(check_agent)
+        probe = get_instance(*args)
+        probe.output = check_agent.perform(*args)
+        call_handler(probe)
       end
 
       def get_instance(*args)
@@ -22,7 +22,7 @@ module Agent
         instance
       end
 
-      def call_handler(check_agent)
+      def call_handler(probe)
         check_agent.handle if check_agent.respond_to?(:handle)
       end
     end
