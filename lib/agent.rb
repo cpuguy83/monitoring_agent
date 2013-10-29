@@ -1,6 +1,7 @@
 require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 
+require 'agent/configuration'
 require 'agent/middleware/chain'
 require 'agent/middleware/logging'
 require 'agent/runner'
@@ -16,14 +17,25 @@ module Agent
       @runner
     end
 
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def configure
+      yield configuration if block_given?
+      configuration
+    end
+
     def start
       if dead_runner?
+        load_host_configuration
         @runner = Runner.run
       end
     end
 
     def start!
       if dead_runner?
+        load_host_configuration
         @runner = Runner.run!
       end
     end
@@ -32,20 +44,9 @@ module Agent
       runner.terminate
     end
 
-    def configure
-      yield self
-    end
-
     def middleware
-      @middleware_chain = default_middleware
-      yield @middleware_chain if block_given?
-      @middleware_chain
-    end
-
-    def default_middleware
-      Middleware::Chain.new do |m|
-        m.add Middleware::Logging
-      end
+      yield configuration.middleware_chain if block_given?
+      configuration.middleware_chain
     end
 
     def running?
