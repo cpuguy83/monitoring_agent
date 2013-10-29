@@ -24,6 +24,10 @@ module Agent
       end
     end
 
+    def <<(object)
+      @collection << object
+    end
+
     def build(attrs={})
       attrs[:relation_proxy] = self
       service = @klass.new(attrs)
