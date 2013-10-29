@@ -8,6 +8,8 @@ module Agent
       @parent_object = parent_object
       @collection = []
       @mutex = Mutex.new
+    def inspect
+      collection
     end
 
     def each(&block)
