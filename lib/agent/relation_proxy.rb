@@ -3,7 +3,7 @@ module Agent
     attr_reader :collection, :parent_object
     include Enumerable
 
-    def initialize(klass, parent_object)
+    def initialize(klass, parent_object=nil)
       @klass = klass
       @parent_object = parent_object
       @collection = []
