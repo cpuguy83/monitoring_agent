@@ -7,7 +7,9 @@ module Agent
       @klass = klass
       @parent_object = parent_object
       @collection = []
-      @mutex = Mutex.new
+      @lock = Mutex.new
+    end
+
     def inspect
       collection
     end
@@ -19,7 +21,7 @@ module Agent
     end
 
     def synchronize(&block)
-      @mutex.synchronize do
+      @lock.synchronize do
         block.call
       end
     end
