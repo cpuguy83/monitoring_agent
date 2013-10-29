@@ -38,7 +38,10 @@ module Agent
     end
 
     def run
-      loop { schedule_work }
+      loop do
+        sleep Agent.configuration.work_poll
+        schedule_work
+      end
     end
 
     def schedule_work
