@@ -7,8 +7,12 @@ module Agent
 
     attr_reader :registry
 
+    def self.worker_pool_size
+      Agent.configuration.worker_concurrency
+    end
+
     supervise Agent::WorkSchedule, as: :work_schedule
-    pool Agent::Worker, as: :worker, size: 10
+    pool Agent::Worker, as: :worker, size: worker_pool_size
     supervise Agent::Scheduler, as: :scheduler
 
     def [](actor_name)
