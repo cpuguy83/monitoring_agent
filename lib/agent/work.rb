@@ -15,6 +15,7 @@ module Agent
           public_send("#{key}=", value)
         end
       end
+      yield self if block_given?
       self.last_run ||= Time.new(0)
       self.frequency ||= 30.minutes
 
