@@ -1,7 +1,7 @@
 [
   { "name": "foo", "address": "localhost",
     "services": [
-      {"name": "check-host-alive", "class": "CheckPing"}
+      {"name": "check-host-alive", "probe_class": "CheckPing"}
     ]
   }
 
