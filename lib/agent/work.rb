@@ -3,8 +3,8 @@ module Agent
     include Comparable
     attr_reader :attributes
     def self.instance_attrs
-      [:name, :work_class, :arguments,:perform_at, :frequency,
-        :last_run, :output]
+      [:name, :work_class, :arguments, :perform_at, :frequency,
+        :last_run, :output, :other_attributes]
     end
     def initialize(attrs={})
       @attributes = {}
