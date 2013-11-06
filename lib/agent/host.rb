@@ -1,6 +1,7 @@
 module Agent
   class Host
     class Service
+      attr_reader :attributes
       def initialize(attrs={})
         relation = attrs[:relation_proxy]
         @host = relation.parent_object
