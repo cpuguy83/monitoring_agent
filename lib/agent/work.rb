@@ -1,13 +1,12 @@
 module Agent
   class Work
     include Comparable
-    attr_reader :attributes, :work_schedule
+    attr_reader :attributes
     def self.instance_attrs
       [:name, :work_class, :arguments,:perform_at, :frequency,
         :last_run, :output]
     end
-    def initialize(work_schedule,attrs={})
-      @work_schedule = work_schedule
+    def initialize(attrs={})
       @attributes = {}
 
       attrs.each do |key, value|
@@ -18,11 +17,6 @@ module Agent
       yield self if block_given?
       self.last_run ||= Time.new(0)
       self.frequency ||= 30.minutes
-
-    end
-
-    def save
-      work_schedule.add(self)
     end
 
     instance_attrs.each do |attr|
