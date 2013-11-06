@@ -27,14 +27,12 @@ module Agent
 
     def start
       if dead_runner?
-        load_host_configuration
         @runner = Runner.run
       end
     end
 
     def start!
       if dead_runner?
-        load_host_configuration
         @runner = Runner.run!
       end
     end
@@ -71,14 +69,6 @@ module Agent
         @runner = nil
       end
     end
-
-    # TODO: Actually load this configuration and parse it into work
-    def load_host_configuration
-      config_json = JSON.parse(open(configuration.host_configuration).
-                                      read, symbolize_names: true)
-      hosts = config_json.collect {|host| Agent::Host.new(host) }
-    end
-
   end
 end
 
