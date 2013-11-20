@@ -9,7 +9,7 @@ module Agent
     end
 
     def work_schedule
-      runner[:work_schedule]
+      Agent.runner[:work_schedule]
     end
 
   private
@@ -20,10 +20,6 @@ module Agent
       work_schedule.put_back(work)
 
       Agent.middleware.invoke(work)
-    end
-
-    def runner
-      links.detect {|link| Celluloid::SupervisionGroup === link }
     end
 
   end
