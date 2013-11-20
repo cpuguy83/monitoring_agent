@@ -78,7 +78,9 @@ module Agent
     end
 
     def expected_next_run
-      if last_run && frequency
+      if perform_at
+        perform_at + last_run.to_i
+      elsif last_run && frequency
         last_run + frequency
       else
         Time.new(0)
