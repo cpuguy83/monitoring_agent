@@ -11,8 +11,14 @@ GEM
     atomic (1.1.14-java)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
     coderay (1.0.9)
+    connection_pool (1.1.0)
     diff-lcs (1.2.4)
+    fakeredis (0.4.2)
+      redis (~> 3.0.0)
     ffi (1.9.3)
     ffi (1.9.3-java)
     ffi2-generators (0.1.1)
@@ -54,6 +60,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.6)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -297,10 +304,13 @@ DEPENDENCIES
   activesupport
   bundler (~> 1.0)
   celluloid
+  connection_pool
+  fakeredis
   guard
   guard-rspec
   rake
   rdoc (~> 3.12)
+  redis
   rspec
   rspec-given
   rubysl (~> 2.0)
