@@ -1,4 +1,5 @@
 require 'rspec/given'
+require 'fakeredis/rspec'
 require 'agent'
 
 RSpec.configure do |config|

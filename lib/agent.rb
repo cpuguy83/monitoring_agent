@@ -1,6 +1,6 @@
 require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
-
+require 'json'
 require 'agent/configuration'
 require 'agent/middleware/chain'
 require 'agent/middleware/logging'
@@ -54,6 +54,14 @@ module Agent
       !running?
     end
 
+    def redis(&block)
+      @redis ||= ConnectionPool.new(
+        size: (configuration.worker_concurrency + 2)) {
+          Redis.new configuration.redis_options
+        }
+      @redis.with(&block)
+    end
+
   private
 
     def dead_runner?
@@ -70,6 +78,12 @@ module Agent
       end
     end
   end
+
+
+end
+
+Dir[File.dirname(__FILE__) + '/../plugins/*.rb'].each do |file|
+  require file
 end
 
 require 'agent/runner'

@@ -2,7 +2,8 @@ require 'json'
 require 'open-uri'
 module Agent
   class Configuration
-    attr_accessor :worker_concurrency, :host_configuration, :work_poll
+    attr_accessor :worker_concurrency, :host_configuration, :work_poll,
+      :redis_options
     attr_reader :middleware_chain
 
     def initialize
@@ -10,6 +11,7 @@ module Agent
       @middleware_chain = default_middleware
       @work_poll = 1
       @host_configuration = 'config/host_configuration.json'
+      @redis_options = { host: 'localhost', port: 6379 }
     end
 
     def middleware
