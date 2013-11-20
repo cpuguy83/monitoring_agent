@@ -85,6 +85,10 @@ module Agent
       end
     end
 
+    def generate_rank
+      expected_next_run.to_i
+    end
+
   protected
 
     def use_perform_at_for_comparison?
