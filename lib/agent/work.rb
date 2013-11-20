@@ -6,6 +6,16 @@ module Agent
       [:name, :work_class, :arguments, :perform_at, :frequency,
         :last_run, :output, :other_attributes]
     end
+
+    def to_json
+      hash = {}
+      self.class.instance_attrs.each do |attr|
+        hash[attr] = self.send(attr)
+      end
+
+      hash.to_json
+    end
+
     def initialize(attrs={})
       @attributes = {}
 
