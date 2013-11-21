@@ -42,6 +42,20 @@ module Agent
       async.add(work)
     end
 
+    def working
+      work_items = redis do |redis|
+        redis.smembers 'work_schedule:working'
+      end
+      work_items.map {|work| Work.new(JSON.parse(work)) }
+    end
+
+    def schedule
+      work_items = redis do |redis|
+        redis.zrange 'work_schedule', 0, -1
+      end
+      work_items.map {|work| Work.new(JSON.parse(work)) }
+    end
+
   private
     def redis(&block)
       Agent.redis(&block)
