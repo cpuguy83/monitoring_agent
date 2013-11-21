@@ -20,9 +20,7 @@ module Agent
       @attributes = {}
 
       attrs.each do |key, value|
-        if self.class.instance_attrs.include? key
-          public_send("#{key}=", value)
-        end
+        public_send("#{key}=", value) if self.class.instance_attrs.include? key
       end
       yield self if block_given?
       self.last_run ||= Time.new(0)
@@ -46,57 +44,25 @@ module Agent
     end
 
     def work_now?
-      if perform_at
-        perform_at_less_than_now?
-      elsif frequency
-        stale?
-      else
-        true
-      end
+      return perform_at_less_than_now? if perform_at
+      return stale? if frequency
+      true
     end
 
     def perform
-      if arguments
-        perform_with_arguments
-      else
-        perform_without_arguments
-      end
-    end
-
-    def <=>(other)
-      if use_perform_at_for_comparison? && other.use_perform_at_for_comparison?
-        perform_at <=> other.perform_at
-      elsif use_perform_at_for_comparison? &&
-        !other.use_perform_at_for_comparison?
-          perform_at <=> other.expected_next_run
-      elsif !use_perform_at_for_comparison? &&
-        other.use_perform_at_for_comparison?
-          expected_next_run <=> other.perform_at
-      else
-        expected_next_run <=> other.expected_next_run
-      end
+      return perform_with_arguments if arguments
+      perform_without_arguments
     end
 
     def expected_next_run
-      if perform_at
-        perform_at + last_run.to_i
-      elsif last_run && frequency
-        last_run + frequency
-      else
-        Time.new(0)
-      end
+      return perform_at + last_run.to_i if perform_at
+      return last_run + frequency if last_run && frequency
+      Time.new(0)
     end
 
     def generate_rank
       expected_next_run.to_i
     end
-
-  protected
-
-    def use_perform_at_for_comparison?
-      perform_at <= expected_next_run if perform_at
-    end
-
 
   private
 
@@ -113,11 +79,8 @@ module Agent
     end
 
     def perform_at_less_than_now?
-      if perform_at.respond_to? :each
-        perform_at.find { |at| at <= Time.now }
-      else
-        perform_at <= Time.now
-      end
+      return perform_at.find {|at| at <= Time.now } if perform_at.respond_to? :each
+      perform_at <= Time.now
     end
 
     def stale?
