@@ -6,6 +6,8 @@ module Agent
       work.perform
 
       post_run(work)
+    ensure
+      work_schedule.put_back(work)
     end
 
     def work_schedule
@@ -17,7 +19,6 @@ module Agent
     def post_run(work)
       work.perform_at = nil
       work.last_run = Time.now
-      work_schedule.put_back(work)
 
       Agent.middleware.invoke(work)
     end
