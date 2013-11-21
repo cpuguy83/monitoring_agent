@@ -38,7 +38,7 @@ module Agent
     end
 
     def put_back(work)
-      move_to_working_queue(work)
+      remove_from_working_queue(work)
       async.add(work)
     end
 
@@ -48,16 +48,17 @@ module Agent
     end
 
     def find_ready_for_work
-      redis do |redis|
-        work_json = redis.zrange('work_schedule', 0, 0)[0]
-        work = JSON.parse(work_json) if work_json
-        if work && Work.new(work).work_now?
-          key = redis.zrank 'work_schedule', work
-          redis.sadd 'work_schedule:working', work
-          redis.zrem 'work_schedule', key
-          Work.new work
-        end
+      work = get_work
+      move_to_working_queue if work && work.work_now?
+      work
+    end
+
+    def get_work
+      work = redis do |redis|
+        redis.zrange('work_schedule', 0, 0)[0]
       end
+
+      Work.new(JSON.parse(work)) if work
     end
 
     def move_to_working_queue(work)
@@ -67,13 +68,20 @@ module Agent
 
     def remove_from_main_queue(work)
       redis do |redis|
-        redis.srem 'work_schedule', work.to_json
+        key = redis.zrank 'work_schedule', work.to_json
+        redis.zrem 'work_schedule', key
       end
     end
 
     def add_to_working_queue(work)
       redis do |redis|
-        redis.sadd 'work_schedule:working'
+        redis.sadd 'work_schedule:working', work.to_json
+      end
+    end
+
+    def remove_from_working_queue(work)
+      redis do |redis|
+        redis.srem work.to_json
       end
     end
 
@@ -85,7 +93,7 @@ module Agent
 
     def is_being_worked_on?(work)
       redis do |redis|
-        redis.sismember work.to_json
+        redis.sismember 'work_schedule:working', work.to_json
       end
     end
 
