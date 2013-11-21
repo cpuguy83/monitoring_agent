@@ -24,5 +24,20 @@ module Agent
       end
     end
 
+    describe '.working' do
+      Given { queue.add(work) }
+      When { queue.get }
+      Then { expect(queue.working.count).to be 1 }
+      And  { expect(queue.count).to be 0 }
+    end
+
+    describe '.put_back' do
+      Given { queue.add(work) }
+      Given { queue.get }
+      When  { queue.put_back(work) }
+      Then  { expect(queue.count).to be 1 }
+      And   { expect(queue.working.count).to be 0 }
+    end
+
   end
 end
