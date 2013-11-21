@@ -1,6 +1,5 @@
 module Agent
   class Work
-    include Comparable
     attr_reader :attributes
     def self.instance_attrs
       [:name, :work_class, :arguments, :perform_at, :frequency,
