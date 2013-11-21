@@ -63,7 +63,7 @@ module Agent
 
     def find_ready_for_work
       work = get_work
-      move_to_working_queue if work && work.work_now?
+      move_to_working_queue(work) if work && work.work_now?
       work
     end
 
@@ -82,8 +82,7 @@ module Agent
 
     def remove_from_main_queue(work)
       redis do |redis|
-        key = redis.zrank 'work_schedule', work.to_json
-        redis.zrem 'work_schedule', key
+        redis.zrem 'work_schedule', work.to_json
       end
     end
 
@@ -95,7 +94,7 @@ module Agent
 
     def remove_from_working_queue(work)
       redis do |redis|
-        redis.srem work.to_json
+        redis.srem 'work_schedule:working', work.to_json
       end
     end
 
