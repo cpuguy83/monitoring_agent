@@ -60,7 +60,7 @@ module Agent
     def expected_next_run
       case
         when perform_at               then perform_at + last_run.to_i
-        when (last_run && frequency)  then perform_at
+        when (last_run && frequency)  then last_run + frequency
         else                          Time.new
       end
     end
