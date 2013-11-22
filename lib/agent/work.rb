@@ -18,9 +18,12 @@ module Agent
     def initialize(attrs={})
       @attributes = {}
 
-      attrs.each do |key, value|
-        public_send("#{key}=", value) if self.class.instance_attrs.include? key
+      sendable_attrs = attrs.select { |key, value| self.class.instance_attrs.include? key }
+      
+      sendable_attrs.each do |key, value|
+        public_send("#{key}=", value)
       end
+      
       yield self if block_given?
       self.last_run ||= Time.new(0)
       self.frequency ||= 30.minutes
