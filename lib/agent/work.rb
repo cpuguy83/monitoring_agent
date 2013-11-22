@@ -49,8 +49,7 @@ module Agent
     end
 
     def perform
-      return perform_with_arguments if arguments
-      perform_without_arguments
+      arguments ? perform_with_arguments :  perform_without_arguments
     end
 
     def expected_next_run
