@@ -46,9 +46,11 @@ module Agent
     end
 
     def work_now?
-      return perform_at_less_than_now? if perform_at
-      return stale? if frequency
-      true
+      case
+        when perform_at then perform_at_less_than_now?
+        when frequency  then stale?
+        else                 true
+      end
     end
 
     def perform
@@ -56,9 +58,11 @@ module Agent
     end
 
     def expected_next_run
-      return perform_at + last_run.to_i if perform_at
-      return last_run + frequency if last_run && frequency
-      Time.new(0)
+      case
+        when perform_at               then perform_at + last_run.to_i
+        when (last_run && frequency)  then perform_at
+        else                          Time.new
+      end
     end
 
     def generate_rank
