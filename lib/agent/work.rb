@@ -1,48 +1,22 @@
 module Agent
-  class Work
-    attr_reader :attributes
-    def self.instance_attrs
-      [:name, :work_class, :arguments, :perform_at, :frequency,
-        :last_run, :output, :other_attributes]
+  module Work
+    def self.included(base)
+      base.send :attr_reader, :attributes
+      base.send :attr_accessor, :name, :work_class, :arguments, :perform_at,
+        :frequency, :last_run, :output
     end
 
     def to_json
-      hash = {}
-      self.class.instance_attrs.each do |attr|
-        hash[attr] = self.send(attr)
-      end
-
-      hash.to_json
+      instance_variables.inject({}) do |result, attr|
+        result.merge(attr => instance_variable_get(attr))
+      end.to_json
     end
 
     def initialize(attrs={})
-      @attributes = {}
-
-      sendable_attrs = attrs.select { |key, value| self.class.instance_attrs.include? key }
-      
-      sendable_attrs.each do |key, value|
-        public_send("#{key}=", value)
-      end
-      
+      attrs.each {|attr, value| send("#{attr}=", value) if respond_to? attr}
       yield self if block_given?
-      self.last_run ||= Time.new(0)
-      self.frequency ||= 30.minutes
-    end
-
-    instance_attrs.each do |attr|
-      define_method attr do |value=nil|
-        @attributes[attr] = value if value
-        @attributes[attr]
-      end
-
-      define_method "#{attr}=" do |value|
-        @attributes[attr] = value
-      end
-    end
-
-    def ==(other)
-      other.class == self.class &&
-        other.attributes.except(:id) == self.attributes.except(:id)
+      @last_run ||= Time.new(0)
+      @frequency ||= 30.minutes
     end
 
     def work_now?
@@ -54,7 +28,7 @@ module Agent
     end
 
     def perform
-      arguments ? perform_with_arguments :  perform_without_arguments
+      arguments ? perform_with_arguments : perform_without_arguments
     end
 
     def expected_next_run
