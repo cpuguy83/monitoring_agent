@@ -26,14 +26,18 @@ module Agent
       work_items = redis do |redis|
         redis.smembers 'work_schedule:working'
       end
-      work_items.map {|work| Work.new(JSON.parse(work)) }
+      work_items.map {|work| Work.load(work) }
     end
 
     def schedule
       work_items = redis do |redis|
         redis.zrange 'work_schedule', 0, -1
       end
-      work_items.map {|work| Work.new(JSON.parse(work)) }
+      work_items.map {|work| Work.load(work) }
+    end
+
+    def all
+      schedule.concat(working)
     end
 
   private
@@ -52,7 +56,7 @@ module Agent
         redis.zrange('work_schedule', 0, 0)[0]
       end
 
-      Work.new(JSON.parse(work)) if work
+      Work.load(work) if work
     end
 
     def move_to_working_queue(work)
