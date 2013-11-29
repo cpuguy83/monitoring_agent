@@ -1,22 +1,47 @@
+require 'agent/dynamic_attributes'
 module Agent
   module Work
+    class MissingRequiredAttributeError < StandardError; end
+
+    REQUIRED_ATTRIBUTES = [:name, :work_class]
+    #WORK_ATTRIBUTES     = [:last_run, :frequency, :perform_at].
+    #  concat(REQUIRED_ATTRIBUTES)
+
     def self.included(base)
-      base.send :attr_reader, :attributes
-      base.send :attr_accessor, :name, :work_class, :arguments, :perform_at,
-        :frequency, :last_run, :output
+      base.send(:include, DynamicAttributes)
+      base.send(:extend, ClassMethods)
+    end
+
+
+    def self.load(json)
+      work = from_json(json)
+      work.delete('klass').constantize.new(work)
+    end
+
+    def self.from_json(json)
+      JSON.parse(json)
     end
 
     def to_json
+      verify_required_attributes!
       instance_variables.inject({}) do |result, attr|
-        result.merge(attr => instance_variable_get(attr))
-      end.to_json
+        result.merge(attr.to_s.gsub('@','') => instance_variable_get(attr))
+      end.merge({klass: self.class}).to_json
     end
 
-    def initialize(attrs={})
-      attrs.each {|attr, value| send("#{attr}=", value) if respond_to? attr}
-      yield self if block_given?
-      @last_run ||= Time.new(0)
-      @frequency ||= 30.minutes
+    def verify_required_attributes!
+      REQUIRED_ATTRIBUTES.each do |required_attr|
+        raise MissingRequiredAttributeError,
+          "Must set #{required_attr}" unless send(required_attr)
+      end
+    end
+
+    def last_run
+      super || self.last_run = Time.new(0)
+    end
+
+    def frequency
+      super || self.frequency = 30.minutes
     end
 
     def work_now?
@@ -25,10 +50,6 @@ module Agent
         when frequency  then stale?
         else                 true
       end
-    end
-
-    def perform
-      arguments ? perform_with_arguments : perform_without_arguments
     end
 
     def expected_next_run
@@ -43,18 +64,13 @@ module Agent
       expected_next_run.to_i
     end
 
+    def perform
+      work_class.perform(*arguments)
+    end
+
   private
-
-    def perform_with_arguments
-      work_class.perform(arguments)
-    end
-
-    def perform_without_arguments
-      work_class.perform
-    end
-
     def time_since_last_run
-      Time.now - last_run
+      Time.now.to_i - last_run.to_i
     end
 
     def perform_at_less_than_now?
@@ -64,6 +80,15 @@ module Agent
 
     def stale?
       time_since_last_run >= frequency
+    end
+
+    module ClassMethods
+      def new(attrs={}, &block)
+        obj = self.allocate
+        attrs.each {|key, value| obj.instance_variable_set("@#{key}", value) }
+        obj.send(:initialize, attrs, &block)
+        obj
+      end
     end
   end
 end
