@@ -4,8 +4,6 @@ module Agent
     before :each do
       runner = double(:runner)
       Agent.stub(:runner).and_return(runner)
-      WorkSchedule::Configuration.stub(:load).
-        and_return([])
       allow(runner).to receive(:[]).with(:work_schedule).
         and_return(WorkSchedule.new)
     end
