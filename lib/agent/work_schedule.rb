@@ -2,26 +2,6 @@ module Agent
   class WorkSchedule
     include Celluloid
 
-    module Configuration
-      def self.load(schedule)
-        config_json = JSON.parse(open(Agent.configuration.host_configuration).
-                                      read, symbolize_names: true)
-        hosts = config_json.collect {|host| Agent::Host.new(host) }
-        hosts.each do |host|
-          host.services.each do |service|
-            work = Work.new(
-              name:        service.name,
-              work_class:  Object.const_get(service.probe_class),
-              frequency:   service.frequency,
-              peform_at:   service.perform_at,
-              arguments:   service.arguments,
-              other_attributes: { service: service })
-            schedule.add(work)
-          end
-        end
-      end
-    end
-
     def add(work)
       async.add_work(work)
       work
