@@ -1,9 +1,12 @@
 require 'spec_helper'
-
-describe Agent::Host do
-  describe '.services' do
-    Given(:host) { Agent::Host.new }
-    Then { expect(host.services).to respond_to :count}
-    Then { expect(host.services).to respond_to :each }
+module Maxwell
+  module Agent
+    describe Host do
+      describe '.services' do
+        Given(:host) { Maxwell::Host.new }
+        Then { expect(host.services).to respond_to :count}
+        Then { expect(host.services).to respond_to :each }
+      end
+    end
   end
 end

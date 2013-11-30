@@ -1,16 +1,16 @@
 [![Build Status](https://travis-ci.org/cpuguy83/monitoring_agent.png)](https://travis-ci.org/cpuguy83/monitoring_agent)
 
-# agent
+# Maxwell agent
 
 The intention of this is as yet another Nagios replacement.
 It is an single process, multithreaded monitoring agent
 It is based on the Celluloid Actor framework.
 
 This is 1 part of 3 piece monitoring framework.<br>
-####agent(this)
+####Maxwell agent(this)
  - the actual monitoring process
 
-###agent reporting WUI -
+###Maxwell agent reporting WUI -
  - View check results/stats (akin to the main Nagios WUI)
 
 ###server
@@ -23,8 +23,8 @@ This is still in early development, use at your own risk
 
 To use:
 ```ruby
-require 'agent'
-Agent.start!
+require 'maxwell/agent'
+Maxwell::Agent.start!
 ```
 Check out config/schedule.rb for an example on how to schedule work.<br />
 Major changes are coming to this configuration, what's here now is for example only.
@@ -40,13 +40,15 @@ The work object is where check results and other bits of info are stored.
 
 To write your middleware:
 ```ruby
-module Agent
-  module Middleware
-    class MyAwesomeMiddlewares
-      def call(work)
-        # Some awesome stuff before passing to the next item in the chain
-        yield
-        # Some more awesome stuff once the chain bubbles back up
+module Maxwell
+  module Agent
+    module Middleware
+      class MyAwesomeMiddlewares
+        def call(work)
+          # Some awesome stuff before passing to the next item in the chain
+          yield
+          # Some more awesome stuff once the chain bubbles back up
+        end
       end
     end
   end
@@ -54,9 +56,9 @@ end
 ```
 You register your middleware as such:
 ```ruby
-Agent.configure do |config|
+Maxwell::Agent.configure do |config|
   config.middleware do |chain|
-    chain.add Agent::Middleware::MyAwesomeMiddlewares
+    chain.add Maxwell::Middleware::MyAwesomeMiddlewares
   end
 end
 ```

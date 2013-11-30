@@ -1,6 +1,6 @@
 require 'rspec/given'
 require 'fakeredis/rspec'
-require 'agent'
+require 'maxwell/agent'
 
 RSpec.configure do |config|
   config.before(:each) do

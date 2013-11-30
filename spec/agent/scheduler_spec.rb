@@ -1,11 +1,13 @@
 require 'spec_helper'
-module Agent
-  describe Scheduler do
-    before :each do
-      runner = double(:runner)
-      Agent.stub(:runner).and_return(runner)
-      allow(runner).to receive(:[]).with(:scheduler).and_return(Agent::Scheduler.new)
+module Maxwell
+  module Agent
+    describe Scheduler do
+      before :each do
+        runner = double(:runner)
+        Maxwell.stub(:runner).and_return(runner)
+        allow(runner).to receive(:[]).with(:scheduler).and_return(Maxwell::Scheduler.new)
+      end
+      Given(:scheduler) { Maxwell.runner[:scheduler] }
     end
-    Given(:scheduler) { Agent.runner[:scheduler] }
   end
 end

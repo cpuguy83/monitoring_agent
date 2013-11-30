@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'agent/version'
+require 'maxwell/agent/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "monitoring_agent"
-  spec.version       = Agent::VERSION
+  spec.name          = "maxwell_agent"
+  spec.version       = Maxwell::Agent::VERSION
   spec.authors       = ["Brian Goff"]
   spec.email         = ["cpuguy83@gmail.com"]
-  spec.description   = %q{Monitoring Agent}
-  spec.summary       = %q{Monitoring Agent}
-  spec.homepage      = "http://www.github.com/cpuguy83/monitoring_agent"
+  spec.description   = %q{Maxwell Agent}
+  spec.summary       = %q{Maxwell Agent}
+  spec.homepage      = "http://www.github.com/cpuguy83/maxwell_agent"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
