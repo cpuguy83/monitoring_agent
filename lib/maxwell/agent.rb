@@ -2,11 +2,12 @@ require 'bundler/setup'
 Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'json'
 require 'maxwell/agent/configuration'
+require 'maxwell/agent/dynamic_attributes'
 require 'maxwell/agent/middleware/chain'
 require 'maxwell/agent/middleware/logging'
+require 'maxwell/agent/work'
 require 'maxwell/agent/host'
 require 'maxwell/agent/probe'
-require 'maxwell/agent/work'
 
 
 module Maxwell

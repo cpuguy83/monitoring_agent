@@ -1,4 +1,3 @@
-require 'agent/dynamic_attributes'
 module Maxwell
   module Agent
     module Work

@@ -1,5 +1,3 @@
-require 'agent/work'
-require 'agent/dynamic_attributes'
 module Maxwell
   module Agent
     class Host

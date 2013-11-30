@@ -1,6 +1,6 @@
-require 'agent/worker'
-require 'agent/scheduler'
-require 'agent/work_schedule'
+require 'maxwell/agent/worker'
+require 'maxwell/agent/scheduler'
+require 'maxwell/agent/work_schedule'
 
 module Maxwell
   module Agent

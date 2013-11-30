@@ -1,6 +1,6 @@
 require 'erb'
 require 'sinatra'
-require 'agent/web_helpers'
+require 'maxwell/agent/web_helpers'
 module Maxwell
   module Agent
     class Web < Sinatra::Base
