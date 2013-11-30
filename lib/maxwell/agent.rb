@@ -1,5 +1,4 @@
 require 'bundler/setup'
-Bundler.require(:default, (ENV['RACK_ENV'] || :development))
 require 'active_support/core_ext/integer/time'
 require 'celluloid'
 require 'redis'
