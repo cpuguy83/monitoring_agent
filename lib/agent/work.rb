@@ -9,17 +9,23 @@ module Agent
 
     def self.included(base)
       base.send(:include, DynamicAttributes)
-      base.send(:extend, ClassMethods)
     end
 
 
     def self.load(json)
       work = from_json(json)
-      work.delete('klass').constantize.new(work)
+      work.delete('klass').constantize.new.load(work)
     end
 
     def self.from_json(json)
       JSON.parse(json)
+    end
+
+    def load(attrs={})
+      attrs.each do |key, value|
+        send("#{key}=", value )
+      end
+      self
     end
 
     def to_json
@@ -82,13 +88,5 @@ module Agent
       time_since_last_run >= frequency
     end
 
-    module ClassMethods
-      def new(attrs={}, &block)
-        obj = self.allocate
-        attrs.each {|key, value| obj.instance_variable_set("@#{key}", value) }
-        obj.send(:initialize, attrs, &block)
-        obj
-      end
-    end
   end
 end
