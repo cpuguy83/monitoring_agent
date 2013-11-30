@@ -22,8 +22,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rpsec-given"
+  spec.add_development_dependency "fakeredis"
 
   spec.add_runtime_dependency "celluloid", "~> 0.15.0"
   spec.add_runtime_dependency "activesupport"
+  spec.add_runtime_dependency "connection_pool"
+  spec.add_runtime_dependency "redis"
 end
 
