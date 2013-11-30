@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cpuguy83/monitoring_agent.png)](https://travis-ci.org/cpuguy83/monitoring_agent)
+[![Build Status](https://travis-ci.org/cpuguy83/maxwell_agent.png)](https://travis-ci.org/cpuguy83/maxwell_agent)
 
 # Maxwell agent
 
