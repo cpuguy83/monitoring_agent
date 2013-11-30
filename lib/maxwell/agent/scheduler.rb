@@ -13,7 +13,7 @@ module Maxwell
 
       def run
         loop do
-          sleep Maxwell.configuration.work_poll
+          sleep Agent.configuration.work_poll
           schedule_work
         end
       end

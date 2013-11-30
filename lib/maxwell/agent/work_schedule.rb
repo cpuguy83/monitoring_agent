@@ -43,7 +43,7 @@ module Maxwell
 
     private
       def redis(&block)
-        Maxwell.redis(&block)
+        Agent.redis(&block)
       end
 
       def find_ready_for_work

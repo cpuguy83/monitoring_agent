@@ -4,16 +4,16 @@ module Maxwell
     describe WorkSchedule do
       before :each do
         runner = double(:runner)
-        Maxwell.stub(:runner).and_return(runner)
+        Agent.stub(:runner).and_return(runner)
         allow(runner).to receive(:[]).with(:work_schedule).
           and_return(WorkSchedule.new)
       end
 
-      Given(:queue) { Maxwell.runner[:work_schedule] }
-      Given(:work) { WorkTest.new(name: 'foo', work_class: 'bar') }
+      Given(:queue) { Agent.runner[:work_schedule] }
+      Given(:work) { WorkTest.new.load(name: 'foo', work_class: 'bar') }
       describe '.add' do
         context 'Work is added' do
-          When { queue.add(work) }
+          When(:result) { queue.add(work) }
           Then { expect(queue.count).to be 1 }
         end
         context 'The same Work is added 2x' do
@@ -40,7 +40,7 @@ module Maxwell
 
       describe '.all' do
         Given { queue.add(work) }
-        Given { queue.add(WorkTest.new(name: 'foo', work_class: 'bar',
+        Given { queue.add(WorkTest.new.load(name: 'foo', work_class: 'bar',
                                        perform_at: 5.minutes.ago)) }
         When  { queue.get }
         Then  { expect(queue.all.count).to be 2 }

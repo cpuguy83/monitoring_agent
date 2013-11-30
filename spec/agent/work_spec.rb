@@ -79,7 +79,7 @@ module Maxwell
       describe '.verify_required_attributes!' do
         Given(:work) { WorkTest.new }
         When(:result) { work.verify_required_attributes! }
-        Then { expect(result).to raise_error Maxwell::Work::MissingRequiredAttributeError }
+        Then { expect(result).to raise_error Work::MissingRequiredAttributeError }
       end
     end
   end

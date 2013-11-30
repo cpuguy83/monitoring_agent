@@ -4,10 +4,10 @@ module Maxwell
     describe Scheduler do
       before :each do
         runner = double(:runner)
-        Maxwell.stub(:runner).and_return(runner)
+        Agent.stub(:runner).and_return(runner)
         allow(runner).to receive(:[]).with(:scheduler).and_return(Maxwell::Scheduler.new)
       end
-      Given(:scheduler) { Maxwell.runner[:scheduler] }
+      Given(:scheduler) { Agent.runner[:scheduler] }
     end
   end
 end

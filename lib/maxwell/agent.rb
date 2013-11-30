@@ -86,4 +86,4 @@ Dir[File.dirname(__FILE__) + '/../plugins/*.rb'].each do |file|
   require file
 end
 
-require 'agent/runner'
+require 'maxwell/agent/runner'

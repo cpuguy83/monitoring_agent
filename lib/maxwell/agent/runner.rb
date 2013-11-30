@@ -9,12 +9,12 @@ module Maxwell
       attr_reader :registry
 
       def self.worker_pool_size
-        Maxwell.configuration.worker_concurrency
+        Agent.configuration.worker_concurrency
       end
 
-      supervise Maxwell::WorkSchedule, as: :work_schedule
-      pool Maxwell::Worker, as: :worker, size: worker_pool_size
-      supervise Maxwell::Scheduler, as: :scheduler
+      supervise Agent::WorkSchedule, as: :work_schedule
+      pool Agent::Worker, as: :worker, size: worker_pool_size
+      supervise Agent::Scheduler, as: :scheduler
 
       def [](actor_name)
         @registry[actor_name]

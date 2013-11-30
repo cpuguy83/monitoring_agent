@@ -22,8 +22,8 @@ module Maxwell
       end
 
       def default_middleware
-        Maxwell::Middleware::Chain.new do |m|
-          m.add Maxwell::Middleware::Logging
+        Middleware::Chain.new do |m|
+          m.add Middleware::Logging
         end
       end
     end

@@ -12,7 +12,7 @@ module Maxwell
       end
 
       def work_schedule
-        Maxwell.runner[:work_schedule]
+        Agent.runner[:work_schedule]
       end
 
     private
@@ -21,7 +21,7 @@ module Maxwell
         work.perform_at = nil
         work.last_run = Time.now
 
-        Maxwell::Agent.middleware.invoke(work)
+        Agent.middleware.invoke(work)
       end
     end
   end

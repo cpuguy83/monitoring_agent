@@ -1,43 +1,43 @@
 require 'spec_helper'
 
-module Maxwell do
+module Maxwell
   describe Agent do
     describe '.start' do
-      When { Maxwell.start! }
-      Then { expect(Maxwell).to be_running }
-      And { expect(Maxwell.runner).to be_an Maxwell::Runner }
+      When { Agent.start! }
+      Then { expect(Agent).to be_running }
+      And { expect(Agent.runner).to be_an Agent::Runner }
 
-      context 'Maxwell is started again' do
-        Given { Maxwell.start! }
-        Given(:runner) { Maxwell.runner }
-        When { Maxwell.start! }
-        Then { expect(runner).to be Maxwell.runner }
+      context 'Agent is started again' do
+        Given { Agent.start! }
+        Given(:runner) { Agent.runner }
+        When { Agent.start! }
+        Then { expect(runner).to be Agent.runner }
       end
 
     end
 
     describe '.stop' do
-      Given { Maxwell.start! }
-      When { Maxwell.stop }
-      Then { expect(Maxwell).to be_stopped }
+      Given { Agent.start! }
+      When { Agent.stop }
+      Then { expect(Agent).to be_stopped }
     end
 
     context 'agent is restarted' do
-      Given!(:agent1) { Maxwell.start! }
-      Given { Maxwell.stop }
-      When { Maxwell.start! }
-      Then { expect(Maxwell).to be_running }
+      Given!(:agent1) { Agent.start! }
+      Given { Agent.stop }
+      When { Agent.start! }
+      Then { expect(Agent).to be_running }
     end
 
     it 'Survives an Actor System reboot' do
-      Maxwell.start!
-      runner = Maxwell.runner
+      Agent.start!
+      runner = Agent.runner
 
       Celluloid.shutdown
       Celluloid.boot
-      Maxwell.start!
+      Agent.start!
 
-      expect(Maxwell.runner).to_not be runner
+      expect(Agent.runner).to_not be runner
     end
   end
 end
