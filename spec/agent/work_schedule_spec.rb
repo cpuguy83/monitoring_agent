@@ -33,8 +33,8 @@ module Agent
       Given { queue.add(work) }
       Given { queue.get }
       When  { queue.put_back(work) }
-      Then  { expect(queue.count).to be 1 }
-      And   { expect(queue.working.count).to be 0 }
+      Then  { expect(queue.count).to eq 1 }
+      And   { expect(queue.working.count).to eq 0 }
     end
 
   end
