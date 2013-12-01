@@ -12,7 +12,6 @@ gem 'rspec-given', group: [:test, :development]
 
 gem 'celluloid'
 gem 'redis'
-gem 'fakeredis', group: [:test, :development], require: false
 gem 'connection_pool'
 gem 'activesupport', require: ['active_support/core_ext/integer/time']
 
