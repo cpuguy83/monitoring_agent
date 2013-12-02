@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "fakeredis"
 
   spec.add_runtime_dependency "celluloid", "~> 0.15.0"
+  spec.add_runtime_dependency "celluloid-io"
   spec.add_runtime_dependency "activesupport"
   spec.add_runtime_dependency "connection_pool"
   spec.add_runtime_dependency "redis"

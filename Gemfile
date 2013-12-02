@@ -11,6 +11,7 @@ gem 'rspec', group: [:test, :development]
 gem 'rspec-given', group: [:test, :development]
 
 gem 'celluloid'
+gem 'celluloid-io'
 gem 'redis'
 gem 'connection_pool'
 gem 'activesupport', require: ['active_support/core_ext/integer/time']

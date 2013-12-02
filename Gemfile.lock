@@ -11,6 +11,9 @@ GEM
     atomic (1.1.14-java)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
     coderay (1.0.9)
     connection_pool (1.1.0)
     diff-lcs (1.2.4)
@@ -40,6 +43,7 @@ GEM
     method_source (0.8.2)
     minitest (4.7.5)
     multi_json (1.8.2)
+    nio4r (0.5.0)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -299,6 +303,7 @@ DEPENDENCIES
   activesupport
   bundler (~> 1.0)
   celluloid
+  celluloid-io
   connection_pool
   guard
   guard-rspec
