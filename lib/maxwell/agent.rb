@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'active_support/core_ext/integer/time'
 require 'celluloid'
+require 'celluloid/io'
 require 'redis'
 require 'connection_pool'
 require 'json'
