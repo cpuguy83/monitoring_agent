@@ -85,8 +85,7 @@ module Maxwell
     end
   end
 end
-
-Dir[File.dirname(__FILE__) + '/../plugins/*.rb'].each do |file|
+Dir[File.dirname(__FILE__) + '/../../plugins/*.rb'].each do |file|
   require file
 end
 
