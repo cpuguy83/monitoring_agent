@@ -3,15 +3,18 @@ module Maxwell
     class WorkSchedule
       include Celluloid
 
+      def initialize
+        @schedule = RedisObjects::SortedSet.new('work_schedule')
+        @working  = RedisObjects::Set.new('work_schedule:working')
+      end
+
       def add(work)
-        async.add_work(work)
+        @schedule.async.add(work.generate_range, work)
         work
       end
 
       def count
-        redis do |redis|
-          redis.zcard 'work_schedule'
-        end
+        schedule.count
       end
 
       def get
@@ -19,22 +22,16 @@ module Maxwell
       end
 
       def put_back(work)
-        remove_from_working_queue(work)
-        async.add(work)
+        @working.remove(work)
+        add(work)
       end
 
       def working
-        work_items = redis do |redis|
-          redis.smembers 'work_schedule:working'
-        end
-        work_items.map {|work| Work.load(work) }
+        @working.all.map {|work| Work.load(work) }
       end
 
       def schedule
-        work_items = redis do |redis|
-          redis.zrange 'work_schedule', 0, -1
-        end
-        work_items.map {|work| Work.load(work) }
+        @schedule.all.map {|work| Work.load(work) }
       end
 
       def all
@@ -42,9 +39,6 @@ module Maxwell
       end
 
     private
-      def redis(&block)
-        Agent.redis(&block)
-      end
 
       def find_ready_for_work
         work = get_work
@@ -53,46 +47,17 @@ module Maxwell
       end
 
       def get_work
-        work = redis do |redis|
-          redis.zrange('work_schedule', 0, 0)[0]
-        end
-
+        work = @schedule.first
         Work.load(work) if work
       end
 
       def move_to_working_queue(work)
-        add_to_working_queue(work)
-        remove_from_main_queue(work)
-      end
-
-      def remove_from_main_queue(work)
-        redis do |redis|
-          redis.zrem 'work_schedule', work.to_json
-        end
-      end
-
-      def add_to_working_queue(work)
-        redis do |redis|
-          redis.sadd 'work_schedule:working', work.to_json
-        end
-      end
-
-      def remove_from_working_queue(work)
-        redis do |redis|
-          redis.srem 'work_schedule:working', work.to_json
-        end
-      end
-
-      def add_work(work)
-        redis do |redis|
-          redis.zadd 'work_schedule', work.generate_rank, work.to_json
-        end
+        @working.add(work)
+        @schedule.async.remove(work)
       end
 
       def is_being_worked_on?(work)
-        redis do |redis|
-          redis.sismember 'work_schedule:working', work.to_json
-        end
+        @working.exists?(work)
       end
     end
   end
