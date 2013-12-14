@@ -14,20 +14,20 @@ module Maxwell
       describe '.add' do
         context 'Work is added' do
           When(:result) { queue.add(work) }
-          Then { expect(queue.count).to be 1 }
+          Then { expect(queue.count).to eq 1 }
         end
         context 'The same Work is added 2x' do
           Given { queue.add(work) }
           When { queue.add(work) }
-          Then { expect(queue.count).to be 1 }
+          Then { expect(queue.count).to eq 1 }
         end
       end
 
       describe '.working' do
         Given { queue.add(work) }
         When { queue.get }
-        Then { expect(queue.working.count).to be 1 }
-        And  { expect(queue.count).to be 0 }
+        Then { expect(queue.working.count).to eq 1 }
+        And  { expect(queue.count).to  eq 0 }
       end
 
       describe '.put_back' do
@@ -43,9 +43,9 @@ module Maxwell
         Given { queue.add(WorkTest.new.load(name: 'foo', work_class: 'bar',
                                        perform_at: 5.minutes.ago)) }
         When  { queue.get }
-        Then  { expect(queue.all.count).to be 2 }
-        And   { expect(queue.working.count).to be 1 }
-        And   { expect(queue.schedule.count).to be 1 }
+        Then  { expect(queue.all.count).to eq 2 }
+        And   { expect(queue.working.count).to eq 1 }
+        And   { expect(queue.schedule.count).to eq 1 }
       end
 
     end
