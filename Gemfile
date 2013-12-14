@@ -12,7 +12,7 @@ gem 'rspec-given', group: [:test, :development]
 
 gem 'celluloid'
 gem 'celluloid-io'
-gem 'redis'
+gem 'redis', '~> 3.0.6'
 gem 'connection_pool'
 gem 'activesupport', require: ['active_support/core_ext/integer/time']
 

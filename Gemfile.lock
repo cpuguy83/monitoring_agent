@@ -309,7 +309,7 @@ DEPENDENCIES
   guard-rspec
   rake
   rdoc (~> 3.12)
-  redis
+  redis (~> 3.0.6)
   rspec
   rspec-given
   rubysl (~> 2.0)
