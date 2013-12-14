@@ -30,6 +30,7 @@ module Maxwell
 
       def to_json
         verify_required_attributes!
+        set_default_attrs!
         instance_variables.inject({}) do |result, attr|
           result.merge(attr.to_s.gsub('@','') => instance_variable_get(attr))
         end.merge({klass: self.class}).to_json
@@ -86,6 +87,11 @@ module Maxwell
 
       def stale?
         time_since_last_run >= frequency
+      end
+
+      def set_default_attrs!
+        last_run
+        frequency
       end
     end
   end
