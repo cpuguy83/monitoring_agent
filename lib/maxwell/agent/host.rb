@@ -1,11 +1,8 @@
 module Maxwell
   module Agent
     class Host
+      require 'maxwell/agent/host/service'
 
-      class Service
-        include Work
-        def initialize(attrs={})
-          @hosts ||= []
         end
       end
 
