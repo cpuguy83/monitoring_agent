@@ -10,7 +10,7 @@ module Maxwell
       end
 
       Given(:queue) { Agent.runner[:work_schedule] }
-      Given(:work) { WorkTest.new.load(name: 'foo', work_class: 'bar') }
+      Given(:work) { Host::Service.new(name: 'foo', work_class: 'bar') }
       describe '.add' do
         context 'Work is added' do
           When(:result) { queue.add(work) }
@@ -40,7 +40,7 @@ module Maxwell
 
       describe '.all' do
         Given { queue.add(work) }
-        Given { queue.add(WorkTest.new.load(name: 'foo', work_class: 'bar',
+        Given { queue.add(Host::Service.new(name: 'foo', work_class: 'bar',
                                        perform_at: 5.minutes.ago)) }
         When  { queue.get }
         Then  { expect(queue.all.count).to eq 2 }
