@@ -1,6 +1,7 @@
 module Maxwell
   module Agent
     class Host
+      attr_reader :attributes
       require 'maxwell/agent/host/service'
 
       class Serializer
@@ -21,20 +22,27 @@ module Maxwell
         end
       end
 
+
       def initialize(attrs={})
-        @services ||= []
-        @hosts ||= []
+        @attributes = Attributes.new(attrs)
+        @attributes.services ||= []
+      end
+
       def serialize
         Serializer.serialize(attributes.dup)
       end
 
+
       def add_service(service)
-        self.services << service
+        @attributes[:services] << service
       end
 
-      def add_host(host)
-        self.hosts << host
+      def services
+        @attributes[:services]
       end
+
     end
+
   end
 end
+
