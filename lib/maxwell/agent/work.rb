@@ -3,50 +3,10 @@ module Maxwell
     module Work
       class MissingRequiredAttributeError < StandardError; end
 
-      REQUIRED_ATTRIBUTES = [:name, :work_class]
-      #WORK_ATTRIBUTES     = [:last_run, :frequency, :perform_at].
-      #  concat(REQUIRED_ATTRIBUTES)
-
-
-
       def self.load(json)
-        work = from_json(json)
-        work.delete('klass').constantize.new.load(work)
+        Agent::Host::Service::Serializer.deserialize(json)
       end
 
-      def self.from_json(json)
-        JSON.parse(json)
-      end
-
-      def load(attrs={})
-        attrs.each do |key, value|
-          send("#{key}=", value )
-        end
-        self
-      end
-
-      def to_json
-        verify_required_attributes!
-        set_default_attrs!
-        instance_variables.inject({}) do |result, attr|
-          result.merge(attr.to_s.gsub('@','') => instance_variable_get(attr))
-        end.merge({klass: self.class}).to_json
-      end
-
-      def verify_required_attributes!
-        REQUIRED_ATTRIBUTES.each do |required_attr|
-          raise MissingRequiredAttributeError,
-            "Must set #{required_attr}" unless send(required_attr)
-        end
-      end
-
-      def last_run
-        super || self.last_run = Time.new(0)
-      end
-
-      def frequency
-        super || self.frequency = 30.minutes
-      end
 
       def work_now?
         case
