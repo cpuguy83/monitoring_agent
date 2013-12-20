@@ -1,7 +1,6 @@
 module Maxwell
   module Agent
     class Host
-      include DynamicAttributes
 
       class Service
         include Work

@@ -7,9 +7,6 @@ module Maxwell
       #WORK_ATTRIBUTES     = [:last_run, :frequency, :perform_at].
       #  concat(REQUIRED_ATTRIBUTES)
 
-      def self.included(base)
-        base.send(:include, DynamicAttributes)
-      end
 
 
       def self.load(json)
