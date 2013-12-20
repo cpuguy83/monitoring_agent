@@ -3,7 +3,6 @@ module Maxwell
     module RedisObjects
       class Set
         include RedisObjects
-        include Celluloid
         attr_reader :name
 
         def initialize(name)

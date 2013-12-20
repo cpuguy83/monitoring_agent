@@ -1,6 +1,3 @@
-require 'maxwell/agent/redis_objects/set'
-require 'maxwell/agent/redis_objects/sorted_set'
-
 module Maxwell
   module Agent
     module RedisObjects
@@ -14,3 +11,8 @@ module Maxwell
     end
   end
 end
+
+require 'maxwell/agent/redis_objects/set'
+require 'maxwell/agent/redis_objects/sorted_set'
+
+
