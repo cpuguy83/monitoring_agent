@@ -33,6 +33,11 @@ module Maxwell
       end
 
     private
+      def set_default_attrs!
+        self.last_run ||= Time.new(0)
+        self.frequency ||= 30.minutes
+      end
+
       def time_since_last_run
         Time.now.to_i - last_run.to_i
       end
@@ -46,10 +51,7 @@ module Maxwell
         time_since_last_run >= frequency
       end
 
-      def set_default_attrs!
-        last_run
-        frequency
-      end
+
     end
   end
 end
