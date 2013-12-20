@@ -32,6 +32,7 @@ GEM
     guard-rspec (4.0.3)
       guard (>= 2.1.1)
       rspec (~> 2.14)
+    hashie (2.0.5)
     i18n (0.6.5)
     json (1.8.1)
     json (1.8.1-java)
@@ -307,6 +308,7 @@ DEPENDENCIES
   connection_pool
   guard
   guard-rspec
+  hashie
   rake
   rdoc (~> 3.12)
   redis (~> 3.0.6)
