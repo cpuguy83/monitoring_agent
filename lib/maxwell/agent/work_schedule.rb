@@ -9,7 +9,7 @@ module Maxwell
       end
 
       def add(work)
-        @schedule.async.add(work.generate_range, work)
+        @schedule.async.add(work.generate_rank, work)
         work
       end
 
