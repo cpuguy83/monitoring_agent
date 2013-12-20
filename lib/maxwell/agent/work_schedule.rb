@@ -22,7 +22,7 @@ module Maxwell
       end
 
       def put_back(work)
-        @working.remove(work)
+        @working.async.remove(work)
         add(work)
       end
 
@@ -42,8 +42,10 @@ module Maxwell
 
       def find_ready_for_work
         work = get_work
-        move_to_working_queue(work) if work && work.work_now?
-        work
+        if work && work.work_now?
+          move_to_working_queue(work)
+          work
+        end
       end
 
       def get_work
@@ -52,7 +54,7 @@ module Maxwell
       end
 
       def move_to_working_queue(work)
-        @working.add(work)
+        @working.async.add(work)
         @schedule.async.remove(work)
       end
 
