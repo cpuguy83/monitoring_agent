@@ -20,7 +20,7 @@ module Maxwell
         case
           when perform_at               then perform_at + last_run.to_i
           when (last_run && frequency)  then last_run + frequency
-          else                          Time.new
+          else                          Time.new(0)
         end
       end
 
