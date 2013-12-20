@@ -26,7 +26,7 @@ module Maxwell
         end
 
         def exists?(object)
-          if redis {|redis| redis.sismember name, object }
+          if redis {|redis| redis.sismember name, object.to_json }
             true
           else
             false
