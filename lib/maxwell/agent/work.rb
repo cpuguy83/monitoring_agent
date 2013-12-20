@@ -32,6 +32,12 @@ module Maxwell
         work_class.perform(*arguments)
       end
 
+      def verify_required_attributes!
+        case
+          when work_class.nil? then raise MissingRequiredAttributeError
+        end
+      end
+
     private
       def set_default_attrs!
         self.last_run ||= Time.new(0)
