@@ -12,12 +12,6 @@ module Maxwell
       Given(:work) { WorkTest.new name: :foo, work_class: 'Foo' }
       Given(:work2) { WorkTest.new name: :bar, work_class: 'Bar' }
 
-      describe '#load' do
-        Given(:work_json) { work.to_json }
-        When(:result) { Work.load(work_json) }
-        Then { expect(work_json).to eq(result.to_json) }
-      end
-
       describe '.work_now?' do
         context 'work is scheduled normally' do
           Given { work.last_run = 1000.hours.ago }
