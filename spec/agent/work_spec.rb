@@ -4,13 +4,8 @@ class Bar; end
 
 module Maxwell
   module Agent
-    class WorkTest
+    class WorkTest < Host::Service
       include Work
-      def initialize(attrs={})
-        attrs.each do |key, value|
-          send("#{key}=", value)
-        end
-      end
     end
 
     describe Work do
