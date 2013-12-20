@@ -18,7 +18,7 @@ module Maxwell
         end
 
         def all
-          hosts = redis {|redis| redis.smembers name}
+          redis {|redis| redis.smembers name}
         end
 
         def count
