@@ -4,8 +4,8 @@ module Maxwell
       include Celluloid
 
       def initialize
-        @schedule = RedisObjects::SortedSet.new('work_schedule')
-        @working  = RedisObjects::Set.new('work_schedule:working')
+        @schedule = RedisObjects::SortedSet.new_link('work_schedule')
+        @working  = RedisObjects::Set.new_link('work_schedule:working')
       end
 
       def add(work)
