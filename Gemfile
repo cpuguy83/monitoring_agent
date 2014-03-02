@@ -8,7 +8,7 @@ group :development do
 end
 
 gem 'rspec', group: [:test, :development]
-gem 'rspec-given', group: [:test, :development]
+gem 'rspec-given', "3.4.0", group: [:test, :development]
 
 gem 'celluloid'
 gem 'celluloid-io'
