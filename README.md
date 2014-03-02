@@ -67,6 +67,27 @@ Everything before the yield is called before passing on to the next middleware<b
 Everything after the yield is called after the rest of the middleware stack has run<br>
 If you do not yield in your middleware call it will break the chain (and likely the app)
 
+
+### Probes
+Probes are the actual monitoring checks that get performed.<br />
+To create a probe include "Maxwell::Agent::Probe" into your class.<br />
+You must define a "perform" instnace method which is what gets called by Maxwell Agent.<br />
+You can optionally define a "handle" instance method which gets run after perform, and should take a single argument<br />
+
+By default when your probe is scheduled it is sent to a worker pool to complete.
+Maxwell also has the ability to take advantage of evented I/O.<br />
+If you know your probe uses evented/non-blocking IO compatible with Celluloid add the following to your class:
+```ruby
+class Foo
+  include Maxwell::Agent::Probe
+
+  self.work_type = :evented
+end
+```
+The work type option will have your probe sent to the evented worker instead of the normal worker pool.<br />
+Only set this option if your probe is doing mostly non-blocking I/O.<br />
+Maxwell will come with several pre-built evented I/O probes that you can use.
+
 ## Contributing to agent
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
