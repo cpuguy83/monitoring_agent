@@ -20,11 +20,12 @@ module Maxwell
       end
 
       def schedule_work
-        work = work_schedule.get
-        if work.evented?
-          evented_worker.async.perform(work)
-        else
-          worker.async.perform(work)
+        if work = work_schedule.get
+          if work.evented?
+            evented_worker.async.perform(work)
+          else
+            worker.async.perform(work)
+          end
         end
       end
     private
