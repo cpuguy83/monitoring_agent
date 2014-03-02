@@ -20,7 +20,7 @@ module Maxwell
         work.perform_at = nil
         work.last_run = Time.now
 
-        Agent.middleware.invoke(work)
+        Agent.runner[:middleware_runner].inoke(work)
       end
     end
   end

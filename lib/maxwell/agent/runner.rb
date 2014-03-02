@@ -3,6 +3,7 @@ require 'maxwell/agent/standard_worker'
 require 'maxwell/agent/evented_worker'
 require 'maxwell/agent/scheduler'
 require 'maxwell/agent/work_schedule'
+require 'maxwell/agent/middleware_runner'
 
 module Maxwell
   module Agent
@@ -17,6 +18,7 @@ module Maxwell
       def initialize(opts)
         super
 
+        pool Agent::MiddlewareRunner, size: self.class.worker_pool_size
         supervise_as :work_schedule, Agent::WorkSchedule
         pool Agent::StandardWorker, as: :worker, size: self.class.worker_pool_size
         supervise_as :evented_worker, Agent::EventedWorker
