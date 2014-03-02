@@ -23,7 +23,7 @@ This is still in early development, use at your own risk
 
 To use:
 ```ruby
-require 'maxwell/agent'
+require 'maxwell_agent'
 Maxwell::Agent.start!
 ```
 Check out config/schedule.rb for an example on how to schedule work.<br />
