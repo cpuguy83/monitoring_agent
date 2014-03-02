@@ -32,6 +32,10 @@ module Maxwell
         work_class.perform(*arguments)
       end
 
+      def evented?
+        work_class.work_type == :evented
+      end
+
       def verify_required_attributes!
         case
           when work_class.nil? then raise MissingRequiredAttributeError

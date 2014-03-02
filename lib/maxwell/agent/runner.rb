@@ -1,4 +1,6 @@
 require 'maxwell/agent/worker'
+require 'maxwell/agent/standard_worker'
+require 'maxwell/agent/evented_worker'
 require 'maxwell/agent/scheduler'
 require 'maxwell/agent/work_schedule'
 
@@ -12,25 +14,24 @@ module Maxwell
         Agent.configuration.worker_concurrency
       end
 
-      supervise Agent::WorkSchedule, as: :work_schedule
-      pool Agent::Worker, as: :worker, size: worker_pool_size
-      supervise Agent::Scheduler, as: :scheduler
+      def initialize(opts)
+        super
+
+        supervise_as :work_schedule, Agent::WorkSchedule
+        pool Agent::StandardWorker, as: :worker, size: self.class.worker_pool_size
+        supervise_as :evented_worker, Agent::EventedWorker
+        supervise_as :scheduler, Agent::Scheduler,
+          work_schedule: self[:work_schedule],
+          worker: self[:worker],
+          evented_worker: self[:evented_worker]
+
+
+        self[:scheduler].async.run
+
+      end
 
       def [](actor_name)
         @registry[actor_name]
-      end
-
-      def initialize(opts)
-        super
-        wait_for_actor_boot
-      end
-
-      def wait_for_actor_boot
-        loop do
-          break if self[:work_schedule] &&
-            self[:worker] &&
-            self[:scheduler]
-        end
       end
     end
   end

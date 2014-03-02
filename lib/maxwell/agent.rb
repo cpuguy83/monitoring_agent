@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'active_support/core_ext/integer/time'
 require 'celluloid'
 require 'celluloid/io'
+require 'celluloid/redis'
 require 'redis'
 require 'connection_pool'
 require 'json'
@@ -65,7 +66,7 @@ module Maxwell
       def redis(&block)
         @redis ||= ConnectionPool.new(
           size: (configuration.worker_concurrency + 2)) {
-            Redis.new configuration.redis_options
+            Redis.new({driver: :celluloid}.merge(configuration.redis_options))
           }
         @redis.with(&block)
       end

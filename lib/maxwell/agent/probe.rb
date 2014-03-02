@@ -9,6 +9,10 @@ module Maxwell
         end
       end
 
+      def work_type
+        self.class.work_type
+      end
+
       module ClassMethods
         def perform(*args)
           probe = instance(*args)
@@ -24,6 +28,14 @@ module Maxwell
 
         def call_handler(probe)
           probe.handle if probe.respond_to?(:handle)
+        end
+
+        def work_type
+          @work_type ||= :non_evented
+        end
+
+        def work_type=(value)
+          @work_type = value.to_sym
         end
       end
     end

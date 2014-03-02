@@ -3,15 +3,16 @@ module Maxwell
     class Scheduler
       include Celluloid
 
-      def initialize
-        async.run
-      end
+      attr_reader :work_schedule, :evented_worker, :worder
 
-      def work_schedule
-        runner[:work_schedule]
+      def initialize(opts={})
+        @work_schedule ||= opts.fetch(:work_schedule)
+        @evented_worker ||= opts.fetch(:evented_worker)
+        @worker ||= opts.fetch(:worker)
       end
 
       def run
+        set_links
         loop do
           sleep Agent.configuration.work_poll
           schedule_work
@@ -20,15 +21,17 @@ module Maxwell
 
       def schedule_work
         work = work_schedule.get
-        worker.async.perform(work) if work
+        if work.evented?
+          evented_worker.async.perform(work)
+        else
+          worker.async.perform(work)
+        end
       end
-
-      def worker
-        runner[:worker]
-      end
-
-      def runner
-        links.detect {|link| Celluloid::SupervisionGroup === link }
+    private
+      def set_links
+        link(@evented_worker)
+        link(@worker)
+        link(@work_schedule)
       end
 
     end

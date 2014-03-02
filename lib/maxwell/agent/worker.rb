@@ -1,7 +1,6 @@
 module Maxwell
   module Agent
     class Worker
-      include Celluloid::IO
 
       def perform(work)
         work.perform
