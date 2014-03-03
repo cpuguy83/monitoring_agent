@@ -1,8 +1,9 @@
 language: ruby
 rvm:
-  - rbx-2.2.1
+  - rbx
   - 2.0.0
   - 1.9.3
   - jruby
+  - ruby
 services:
   - redis-server
